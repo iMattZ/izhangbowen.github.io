@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Gemini","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="如何优化App的电量？程序的耗电方面主要在一下四个方面： Cpu处理 定位 网络 图像  优化的途径主要提现在以下的几个方面： 尽量降低CPU、GPU的消耗 尽量少用定时器 优化I&#x2F;O操作 不要频繁写入小数据，而是等到积攒一定的数量再写入 读写大量的数据可以使用 Dispatch_io, GCD内部已经做了优化。 数据量比较大时，建议使用数据库   网络方面的优化 减少压缩网络数据（XML-&amp;gt">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【iOS】iOS性能优化面试题（如何优化APP的电量）">
+<meta property="og:url" content="http://yoursite.com/2016/05/26/%E3%80%90iOS%E9%9D%A2%E8%AF%95%E3%80%91%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E9%9D%A2%E8%AF%95%E9%A2%98%EF%BC%88%E5%A6%82%E4%BD%95%E4%BC%98%E5%8C%96APP%E7%9A%84%E7%94%B5%E9%87%8F%EF%BC%89/index.html">
+<meta property="og:site_name" content="张博文的博客">
+<meta property="og:description" content="如何优化App的电量？程序的耗电方面主要在一下四个方面： Cpu处理 定位 网络 图像  优化的途径主要提现在以下的几个方面： 尽量降低CPU、GPU的消耗 尽量少用定时器 优化I&#x2F;O操作 不要频繁写入小数据，而是等到积攒一定的数量再写入 读写大量的数据可以使用 Dispatch_io, GCD内部已经做了优化。 数据量比较大时，建议使用数据库   网络方面的优化 减少压缩网络数据（XML-&amp;gt">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2016-05-25T22:00:00.000Z">
+<meta property="article:modified_time" content="2020-03-28T15:32:51.296Z">
+<meta property="article:author" content="张博文">
+<meta property="article:tag" content="面试">
+<meta property="article:tag" content="iOS">
+<meta property="article:tag" content="性能优化">
+<meta property="article:tag" content="iOS面试">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://yoursite.com/2016/05/26/%E3%80%90iOS%E9%9D%A2%E8%AF%95%E3%80%91%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E9%9D%A2%E8%AF%95%E9%A2%98%EF%BC%88%E5%A6%82%E4%BD%95%E4%BC%98%E5%8C%96APP%E7%9A%84%E7%94%B5%E9%87%8F%EF%BC%89/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>【iOS】iOS性能优化面试题（如何优化APP的电量） | 张博文的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">张博文的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Stay hungry，stay foolish</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/05/26/%E3%80%90iOS%E9%9D%A2%E8%AF%95%E3%80%91%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E9%9D%A2%E8%AF%95%E9%A2%98%EF%BC%88%E5%A6%82%E4%BD%95%E4%BC%98%E5%8C%96APP%E7%9A%84%E7%94%B5%E9%87%8F%EF%BC%89/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="张博文">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="张博文的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          【iOS】iOS性能优化面试题（如何优化APP的电量）
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2016-05-26 06:00:00" itemprop="dateCreated datePublished" datetime="2016-05-26T06:00:00+08:00">2016-05-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-03-28 23:32:51" itemprop="dateModified" datetime="2020-03-28T23:32:51+08:00">2020-03-28</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="如何优化App的电量？"><a href="#如何优化App的电量？" class="headerlink" title="如何优化App的电量？"></a>如何优化App的电量？</h1><h2 id="程序的耗电方面主要在一下四个方面："><a href="#程序的耗电方面主要在一下四个方面：" class="headerlink" title="程序的耗电方面主要在一下四个方面："></a>程序的耗电方面主要在一下四个方面：</h2><ul>
+<li>Cpu处理</li>
+<li>定位</li>
+<li>网络</li>
+<li>图像</li>
+</ul>
+<h2 id="优化的途径主要提现在以下的几个方面："><a href="#优化的途径主要提现在以下的几个方面：" class="headerlink" title="优化的途径主要提现在以下的几个方面："></a>优化的途径主要提现在以下的几个方面：</h2><ul>
+<li>尽量降低CPU、GPU的消耗</li>
+<li>尽量少用定时器</li>
+<li>优化I/O操作<ul>
+<li>不要频繁写入小数据，而是等到积攒一定的数量再写入</li>
+<li>读写大量的数据可以使用 Dispatch_io, GCD内部已经做了优化。</li>
+<li>数据量比较大时，建议使用数据库</li>
+</ul>
+</li>
+<li>网络方面的优化<ul>
+<li>减少压缩网络数据（XML-&gt; JSON -&gt; ProtoBuf）,如果可能建议使用ProtoBuf</li>
+<li>如果请求的返回数据相同，可以使用 NSCache 进行缓存</li>
+<li>使用断电续传，避免因网络失败后要重新下载</li>
+<li>网络不可用的时候，不要尝试进行网络请求</li>
+<li>长时间的网络请求，要提供可以取消的操作</li>
+<li>采取批量传输。下载视频流的时候，尽量一大块一大块的进行下载，广告可以一次下载多个</li>
+</ul>
+</li>
+<li>定位层面的优化<ul>
+<li>如果只是需要快速确定用户位置，最好用 CLLocationManager 的 requestLocation 方法，定位完成后，会自动让定位硬件断电</li>
+<li>如果不是导航应用，尽量不要实时更新位置，定位完毕就关掉定位服务</li>
+<li>尽量降低定位精度，比如疆良不要使用精度最高的 kCLLocationAccuracyBest</li>
+<li>需要后台定位时，尽量设置 pausesLocationUpdatesAutomatically 为 YES，如果用户不太可能移动的时候，系统会自动暂停位置更新</li>
+<li>尽量不要使用 startMonitoringSignificantLocationChanges，有限考虑 startMonitoringForRegion</li>
+</ul>
+</li>
+<li>硬件检测优化<ul>
+<li>用户移动、摇晃、倾斜设备时，会产生动作（motion）事件，这些时间由加速计 、陀螺仪，磁力计等硬件检测。在不需要检测的场合，应该及时关闭这些硬件。</li>
+</ul>
+</li>
+</ul>
+<p>文章参考：<a href="https://www.jianshu.com/p/e270ad11e25a" target="_blank" rel="noopener">iOS 性能优化面试题（如何优化 <code>APP</code> 的电量？）</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag"># 面试</a>
+              <a href="/tags/iOS/" rel="tag"># iOS</a>
+              <a href="/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" rel="tag"># 性能优化</a>
+              <a href="/tags/iOS%E9%9D%A2%E8%AF%95/" rel="tag"># iOS面试</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2013/07/13/%E3%80%90%E5%8D%9A%E5%AE%A2%E3%80%91%E5%8D%9A%E5%AE%A2%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/" rel="prev" title="【博客】博客的基本搭建">
+      <i class="fa fa-chevron-left"></i> 【博客】博客的基本搭建
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2016/05/26/%E3%80%90iOS%E3%80%91%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" rel="next" title="【iOS】iOS性能优化">
+      【iOS】iOS性能优化 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#如何优化App的电量？"><span class="nav-number">1.</span> <span class="nav-text">如何优化App的电量？</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#程序的耗电方面主要在一下四个方面："><span class="nav-number">1.1.</span> <span class="nav-text">程序的耗电方面主要在一下四个方面：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#优化的途径主要提现在以下的几个方面："><span class="nav-number">1.2.</span> <span class="nav-text">优化的途径主要提现在以下的几个方面：</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">张博文</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">6</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">张博文</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
