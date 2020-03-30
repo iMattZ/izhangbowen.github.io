@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Gemini","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="内容一：Shell语言 第一点：Shell介绍？     Android开发：动态库编译（.so文件）     iOS开发：静态库（.a文件）         Shell编译     掌握基本Shell使用-&gt;修改和应用Shell  第二点：什么是Shell？     脚本语言-&gt;编译库（应用技术）  第三点：Shell环境？     Mac环境支持Shell开发     Shell中">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【iOS音视频】Shell脚本语言01">
+<meta property="og:url" content="http://yoursite.com/2020/03/29/%E3%80%90%E9%9F%B3%E8%A7%86%E9%A2%91%E3%80%91Shell%E8%84%9A%E6%9C%AC%E8%AF%AD%E8%A8%8001/index.html">
+<meta property="og:site_name" content="张博文的博客">
+<meta property="og:description" content="内容一：Shell语言 第一点：Shell介绍？     Android开发：动态库编译（.so文件）     iOS开发：静态库（.a文件）         Shell编译     掌握基本Shell使用-&gt;修改和应用Shell  第二点：什么是Shell？     脚本语言-&gt;编译库（应用技术）  第三点：Shell环境？     Mac环境支持Shell开发     Shell中">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-03-29T12:46:25.000Z">
+<meta property="article:modified_time" content="2020-03-30T11:58:17.724Z">
+<meta property="article:author" content="张博文">
+<meta property="article:tag" content="Shell">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://yoursite.com/2020/03/29/%E3%80%90%E9%9F%B3%E8%A7%86%E9%A2%91%E3%80%91Shell%E8%84%9A%E6%9C%AC%E8%AF%AD%E8%A8%8001/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>【iOS音视频】Shell脚本语言01 | 张博文的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">张博文的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Stay hungry，stay foolish</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-languages">
+
+    <a href="/languages/" rel="section"><i class="fa fa-fw fa-languages"></i>languages</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/29/%E3%80%90%E9%9F%B3%E8%A7%86%E9%A2%91%E3%80%91Shell%E8%84%9A%E6%9C%AC%E8%AF%AD%E8%A8%8001/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="张博文">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="张博文的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          【iOS音视频】Shell脚本语言01
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-03-29 20:46:25" itemprop="dateCreated datePublished" datetime="2020-03-29T20:46:25+08:00">2020-03-29</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-03-30 19:58:17" itemprop="dateModified" datetime="2020-03-30T19:58:17+08:00">2020-03-30</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index"><span itemprop="name">iOS</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/%E9%9F%B3%E8%A7%86%E9%A2%91/" itemprop="url" rel="index"><span itemprop="name">音视频</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/%E9%9F%B3%E8%A7%86%E9%A2%91/Shell%E8%84%9A%E6%9C%AC/" itemprop="url" rel="index"><span itemprop="name">Shell脚本</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Shell%E8%84%9A%E6%9C%AC/" itemprop="url" rel="index"><span itemprop="name">Shell脚本</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <pre><code>内容一：Shell语言
+第一点：Shell介绍？     Android开发：动态库编译（.so文件）
+    iOS开发：静态库（.a文件）    
+    Shell编译
+    掌握基本Shell使用-&gt;修改和应用Shell
+
+第二点：什么是Shell？
+    脚本语言-&gt;编译库（应用技术）
+
+第三点：Shell环境？
+    Mac环境支持Shell开发
+    Shell中类非常多
+        Bash所有的操作系统默认脚本语言（免费、易用）
+        种类：bash、c Shell、K Shell等等...            
+
+第四点：进入Shell语言基础学习？     1、第一个Shell程序？         1.1 创建Shell文件
+            命令：touch hello.sh
+        1.2 编写Shell程序
+            定义文件声明
+            #!/bin/bash
+            echo &quot;Hello world!&quot;    
+
+            #!：表示约定标记，他会告诉系统这个脚本需要什么样子的解释器来执行，既是一种脚本体现。
+            echo：表示命令用于输出文本信息    
+
+        1.3 修改文件权限
+            1.3.1 权限结构
+                分为了4个部分（QQ群为例）
+                第一部分：文件类型-&gt;QQ群类型
+                第二部分：文件所有者-&gt;群主
+                第三部分：所有者同组用户-&gt;管理员
+                第四部分：其他用户-&gt;群成员    
+
+            1.3.2 查看每一个部分权限
+                查看文件权限        
+                命令：ls -l hello.sh
+                    -rw-r—r--
+            1.3.3 修改文件权限
+                命令： chmod +x ./hello.sh
+                    -rwxr-xr-x
+
+        1.4 执行Shell脚本文件
+            命令：./hello.sh
+
+    2、Shell脚本语法-&gt;注释？
+        ”#“-&gt;表示注视
+        例如：
+            脚本代码
+                #!/bin/bash
+                # 输出了Hello world!
+                echo &quot;Hello world!&quot;
+        注意：在Shell脚本中，没有多行注视，只有单行注释
+
+    3、Shell脚本语言-&gt;变量
+        3.1 变量定义-&gt;注意事项
+            注意一：定义变量时候，变量名出不需要加&quot;$&quot;符号
+            注意二：变量名和等号不能够有空格（和我们的一般语言不一样）
+            注意三：变量名首字母必需是字母+下划线（a-z、A-Z）
+            注意四：变量名中间不允许有空格    
+            注意五：不允许使用标点符号
+            …细节
+        3.2 只读变量
+            关键字：readonly（只读，不能够修改）
+            脚本代码
+                name=&quot;HelloApp&quot;
+                readonly name
+                #./hello.sh: line 35: name: readonly variable
+                name=&quot;smile2017&quot;
+                echo &quot;执行了&quot;
+
+        3.3 删除变量？
+            语法：unset（干掉了）
+            案例：unset 变量名
+
+        3.4 变量类型
+            3.4.1 类型一：本地变量
+                作用域整个bash进程可以使用
+                语法：name=&quot;Dream&quot;
+            3.4.2 类型二：局部变量
+                作用域：当前代码段（修饰符：local）
+                local name=&quot;Andy&quot;
+            3.4.3 类型三：环境变量
+                作用域：当前shell进程以及子进程
+                语法：export name=&quot;Dream&quot;
+            3.4.4 类型四：位置变量
+                脚本代码
+                    #!/bin/bash
+                    name=${0}
+                    age=${1}
+                    sex=${2}
+                    echo &quot;姓名：${name}   年龄：${age}  性别：${sex} &quot;
+                执行脚本
+                    ./hello.sh Jeff 150 男
+                执行结果        
+                    ${0}表示脚本文件名称
+                    参数从1开始
+            3.4.5 特殊变量
+                3.4.5.1 ${0}-&gt;特殊变量-&gt;文件名称
+                3.4.5.2 ${?}-&gt;表示返回上一个命令执行状态返回值
+                    0：表示执行成功
+                    1：程序执行结果
+                    2：表示程序状态返回码（0-255）
+                        系统预留错误（1、2、127）
+                    案例测试
+                        #!/bin/bash
+                        echo ${0}
+                        echo ${?}
+
+                3.4.5.3 $#-&gt;参数个数
+
+                3.4.5.4 $*-&gt;参数列表
+
+                3.4.5.5 $@-&gt;参数列表
+
+                3.4.5.6 $$-&gt;后去当前shell进行ID
+
+                3.4.5.7 $!-&gt;执行上一个指令PID
+
+                3.4.5.8 ${*}和${@}区别？
+                    脚本代码
+                        #!/bin/bash
+                        echo ${*}
+                        echo ${@}
+                    执行脚本
+                        ./hello.sh Andy 200 男 
+                    脚本结果
+                        ${*}-&gt;参数列表：将所有的参数组成一个字符串-&gt;&quot;Andy 200 男&quot;
+                        ${@}-&gt;参数列表：分开的-&gt;&quot;Andy&quot; 200 &quot;男&quot;
+
+    4、Shell脚本语言-&gt;字符串？         4.1 字符串-&gt;单引号
+            脚本代码
+                #!/bin/bash
+                name=&apos;Andy&apos;
+                echo ${name}
+
+
+            脚本结果：Andy
+
+        4.2 字符串-&gt;双引号
+            脚本代码
+                #!/bin/bash
+                name=&quot;Andy&quot;
+                echo ${name}
+
+
+            脚本结果：Andy
+
+        4.3 字符串-&gt;拼接
+            方式一：
+                脚本代码
+                    #!/bin/bash
+                    name=&quot;Andy&quot;
+                    age=100
+                    sex=&quot;男&quot;
+                    info=&quot;${name} ${age} ${sex}&quot;
+                    echo ${info}
+
+
+                脚本结果：&quot;Andy 100 男&quot;
+            方式二
+                脚本代码
+                    #!/bin/bash
+                    name=&quot;Andy&quot;
+                    age=100
+                    sex=&quot;男&quot;
+                    info=&quot; 姓名：&quot;${name}&quot;   年龄：&quot;${age}&quot;  性别：&quot;${sex}&quot;  &quot;
+                    echo ${info}
+
+
+                脚本结果：&quot;姓名：Andy 年龄：100 性别：男&quot;
+
+        4.4 字符串-&gt;获取字符串长度
+            语法结构：${#变量名}
+            脚本代码
+                #!/bin/bash
+                name=&quot;Andy&quot;
+                echo ${#name}
+            脚本结果：4
+
+        4.5 字符串-&gt;截取
+            语法：${变量名:开始位置:截取长度}
+            脚本代码
+                    #!/bin/bash
+                    name=&quot;I have a Dream&quot;
+            案例一：从字符串第3个开始截取，截取3个
+                name=&quot;I have a Dream&quot;
+                result=${name:2:3}
+                echo ${result}
+            案例二：从字符串第5个开始截取，到最后一个结束
+                方式一
+                    name=&quot;I have a Dream&quot;
+                    length=${#name}
+                    result=${name:5:length-1}
+                    echo ${result}
+                方式二
+                    name=&quot;I have a Dream&quot;
+                    result=${name:5}
+                    echo ${result}
+        4.6 字符串-&gt;删除
+            语法一：${变量名#删除字符串 正则表达式}
+                作用：从字符串开头（左边）开始匹配要删除字符串
+                案例一：
+                    name=&quot;I have a Dream&quot;
+                    result=${name#Dream}
+                    echo ${result}
+                    原因：匹配不到
+                案例二：            
+                    name=&quot;I have a Dream&quot;
+                    result=${name#I}
+                    echo ${result}
+                案例三：查找指定字符第一个，并且删除前面所有的字符（包含自己）
+                    name=&quot;I have a Dream&quot;
+                    result=${name#*D}
+                    echo ${result}
+
+                案例四：指定删除范围
+                    name=&quot;I have a Dream&quot;
+                    result=${name#h*D}
+                    echo ${result}
+
+            语法二：${变量名##删除字符串 正则表达式}
+                作用：从字符串结尾（右边）开始匹配要删除字符串
+                案例一
+                    name=&quot;I have a Dream&quot;
+                    result=${name##*a}
+                    echo ${result}
+                总结：语法一和语法二，都是从左边删除到右边，查找方向不一样
+
+            语法三：${变量名%删除字符串 正则表达式}
+                从字符串结尾开始匹配，删除匹配的字符串
+                案例一：查找第一个字符（匹配第一个）
+                    代码一：
+                        name=&quot;I have a Dream&quot;
+                        result=${name%a}
+                        echo ${result}
+                    代码二：
+                        name=&quot;I have a Dream&quot;
+                        result=${name%m}
+                        echo ${result}
+
+                案例二：查找指定字符第一个，并且删除前面所有字符（包含自己）
+                    name=&quot;I have a Dream&quot;
+                    result=${name%h*}
+                    echo ${result}
+
+                案例三：指定删除范围
+                    name=&quot;I have a Dream&quot;
+                    result=${name%a*D}
+                    echo ${result}
+
+            语法四：${变量名%%删除字符串 正则表达式}
+                案例一：查找指定字符最后一个，并且删除前面所有的字符（包含自己）
+                    name=&quot;I have a Dream&quot;
+                    result=${name%%a*}
+                    echo ${result}
+
+            总结：
+                从左边删除到右边
+                    #-&gt;表示查询方向从左到右
+                    ##-&gt;表示查询方向从右到左
+                从右边删除到左边
+                    %-&gt;表示查询方向从右到左
+                    %%-&gt;表示查询方向从左到右
+
+
+
+    作业一：删除中间字符串如何实现？
+    作业二：获取文件名称和获取文件路径？
+        path=&quot;/Users/yangshaohong/Desktop/hello.sh&quot;</code></pre>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Shell/" rel="tag"># Shell</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/03/28/%E3%80%90%E8%8B%B1%E8%AF%AD%E3%80%91EF_GL_Advaced_Talking_about_education/" rel="prev" title="【GL-Advcanced】Talking about education - 谈论教育">
+      <i class="fa fa-chevron-left"></i> 【GL-Advcanced】Talking about education - 谈论教育
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/03/29/%E3%80%90%E8%8B%B1%E8%AF%AD%E3%80%91EF_GL_Advaced_Dealing_with_stressful_situations/" rel="next" title="【GL-Advcanced】Dealing with stressful situations - 应对紧张情况">
+      【GL-Advcanced】Dealing with stressful situations - 应对紧张情况 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">张博文</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">10</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">张博文</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
