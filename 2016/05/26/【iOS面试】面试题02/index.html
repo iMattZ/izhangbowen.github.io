@@ -20,20 +20,21 @@
     var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Gemini","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="越来越多的人装转移到城市找工作。谈谈居住在大城市’pros and cons’。您更向往居住在哪里？ Vocabularies of the course city 城市 town  小城镇 village 村庄 country (side)  乡村，更田园些吧 rank [ræŋk]  v.把…分等级; 属于某等级; 排列; 使排成行; rank  n. (尤指较高的) 地位，级别; 军衔; 军">
+  <meta name="description" content="1、说一下OC的反射机制； 2、block的实质是什么？有几种block？分别是怎样产生的？ 3、__block修饰的变量为什么能在block里面能改变其值？ 4、说一下线程之间的通信。 5、你们应用的崩溃率是多少？ 6、说一下hash算法。 7、NSDictionary的实现原理是什么？ 8、你们的App是如何处理本地数据安全的（比如用户名的密码）？ 9、遇到过BAD_ACCESS的错误吗？">
 <meta property="og:type" content="article">
-<meta property="og:title" content="【GL-Advcanced】Living in the city - 在城市居住">
-<meta property="og:url" content="http://yoursite.com/2020/03/31/%E3%80%90%E8%8B%B1%E8%AF%AD%E3%80%91EF_GL_Advaced_Living_in_the_city/index.html">
+<meta property="og:title" content="【iOS面试】面试题（阿里-P6一面-参考思路）">
+<meta property="og:url" content="http://yoursite.com/2016/05/26/%E3%80%90iOS%E9%9D%A2%E8%AF%95%E3%80%91%E9%9D%A2%E8%AF%95%E9%A2%9802/index.html">
 <meta property="og:site_name" content="张博文的博客">
-<meta property="og:description" content="越来越多的人装转移到城市找工作。谈谈居住在大城市’pros and cons’。您更向往居住在哪里？ Vocabularies of the course city 城市 town  小城镇 village 村庄 country (side)  乡村，更田园些吧 rank [ræŋk]  v.把…分等级; 属于某等级; 排列; 使排成行; rank  n. (尤指较高的) 地位，级别; 军衔; 军">
+<meta property="og:description" content="1、说一下OC的反射机制； 2、block的实质是什么？有几种block？分别是怎样产生的？ 3、__block修饰的变量为什么能在block里面能改变其值？ 4、说一下线程之间的通信。 5、你们应用的崩溃率是多少？ 6、说一下hash算法。 7、NSDictionary的实现原理是什么？ 8、你们的App是如何处理本地数据安全的（比如用户名的密码）？ 9、遇到过BAD_ACCESS的错误吗？">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2020-03-31T12:46:25.000Z">
-<meta property="article:modified_time" content="2020-03-31T13:45:08.602Z">
+<meta property="article:published_time" content="2016-05-25T22:00:00.000Z">
+<meta property="article:modified_time" content="2020-03-31T14:11:40.339Z">
 <meta property="article:author" content="张博文">
-<meta property="article:tag" content="EF-GL-Advcanced">
+<meta property="article:tag" content="iOS面试">
+<meta property="article:tag" content="性能优化">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://yoursite.com/2020/03/31/%E3%80%90%E8%8B%B1%E8%AF%AD%E3%80%91EF_GL_Advaced_Living_in_the_city/">
+<link rel="canonical" href="http://yoursite.com/2016/05/26/%E3%80%90iOS%E9%9D%A2%E8%AF%95%E3%80%91%E9%9D%A2%E8%AF%95%E9%A2%9802/">
 
 
 <script id="page-configurations">
@@ -46,7 +47,7 @@
   };
 </script>
 
-  <title>【GL-Advcanced】Living in the city - 在城市居住 | 张博文的博客</title>
+  <title>【iOS面试】面试题（阿里-P6一面-参考思路） | 张博文的博客</title>
   
 
 
@@ -168,7 +169,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/31/%E3%80%90%E8%8B%B1%E8%AF%AD%E3%80%91EF_GL_Advaced_Living_in_the_city/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/05/26/%E3%80%90iOS%E9%9D%A2%E8%AF%95%E3%80%91%E9%9D%A2%E8%AF%95%E9%A2%9802/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -181,7 +182,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          【GL-Advcanced】Living in the city - 在城市居住
+          【iOS面试】面试题（阿里-P6一面-参考思路）
         </h1>
 
         <div class="post-meta">
@@ -190,21 +191,27 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2020-03-31 20:46:25 / 修改时间：21:45:08" itemprop="dateCreated datePublished" datetime="2020-03-31T20:46:25+08:00">2020-03-31</time>
+              <time title="创建时间：2016-05-26 06:00:00" itemprop="dateCreated datePublished" datetime="2016-05-26T06:00:00+08:00">2016-05-26</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-03-31 22:11:40" itemprop="dateModified" datetime="2020-03-31T22:11:40+08:00">2020-03-31</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/EF/" itemprop="url" rel="index"><span itemprop="name">EF</span></a>
+                  <a href="/categories/iOS/" itemprop="url" rel="index"><span itemprop="name">iOS</span></a>
                 </span>
                   ，
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/EF/GL/" itemprop="url" rel="index"><span itemprop="name">GL</span></a>
+                  <a href="/categories/iOS/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" itemprop="url" rel="index"><span itemprop="name">性能优化</span></a>
                 </span>
             </span>
 
@@ -219,92 +226,48 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>越来越多的人装转移到城市找工作。谈谈居住在大城市’pros and cons’。您更向往居住在哪里？</p>
-<h1 id="Vocabularies-of-the-course"><a href="#Vocabularies-of-the-course" class="headerlink" title="Vocabularies of the course"></a>Vocabularies of the course</h1><ol>
-<li>city 城市</li>
-<li>town  小城镇</li>
-<li>village 村庄</li>
-<li>country (side)  乡村，更田园些吧</li>
-<li>rank [ræŋk]  v.把…分等级; 属于某等级; 排列; 使排成行;</li>
-<li>rank  n. (尤指较高的) 地位，级别; 军衔; 军阶; 警衔; 普通士兵</li>
-<li>rank  adj. 难闻的; 恶臭的; (强调质量、状况等) 极端的，糟糕的; 疯长的;</li>
-<li>affordable  [əˈfɔːdəbl]  adj.买得起的; 价格合理的; 负担得起的;</li>
-<li>recreation [ˌriːkriˈeɪʃn] n.娱乐; 消遣; 娱乐活动; 游戏</li>
-<li>scenery [ˈsiːnəri]  n.风景; 景色; 风光; 舞台布景;</li>
-<li>delicious Cusisine</li>
-<li>cuisine [kwɪˈziːn]  n.烹饪; 风味; (通常指昂贵的饭店中的) 饭菜，菜肴;</li>
-</ol>
-<h1 id="Phrases-of-course"><a href="#Phrases-of-course" class="headerlink" title="Phrases of course"></a>Phrases of course</h1><ol>
-<li>lots of job opportunities   很多工作机会</li>
-<li>affordable housing prices  经济适用房价格</li>
-<li>low cost of living  低生活成本</li>
-<li>excellent public transportation  优秀的公共交通</li>
-<li>fantastic weather  奇妙的天气</li>
-<li>low crime rate  低犯罪率</li>
-<li>other areas for recreation  其他娱乐区</li>
-<li>would rather do A than do B 宁愿……而不愿……</li>
-<li>would do A rather than do B 宁愿……而不愿……</li>
-</ol>
-<a id="more"></a>
+        <ul>
+<li></li>
+<li>1、说一下OC的反射机制；</li>
+<li>2、block的实质是什么？有几种block？分别是怎样产生的？</li>
+<li>3、__block修饰的变量为什么能在block里面能改变其值？</li>
+<li>4、说一下线程之间的通信。</li>
+<li>5、你们应用的崩溃率是多少？</li>
+<li>6、说一下hash算法。</li>
+<li>7、NSDictionary的实现原理是什么？</li>
+<li>8、你们的App是如何处理本地数据安全的（比如用户名的密码）？</li>
+<li>9、遇到过BAD_ACCESS的错误吗？你是怎样调试的？</li>
+<li>10、什么是指针常量和常量指针？</li>
+<li>11、不借用第三个变量，如何交换两个变量的值？要求手动写出交换过程。</li>
+<li>12、若你去设计一个通知中心，你会怎样设计？</li>
+<li>13、如何去设计一个方案去应对后端频繁更改的字段接口？</li>
+<li>14、KVO、KVC的实现原理</li>
+<li>15、用递归算法求1到n的和</li>
+<li>16、category为什么不能添加属性？</li>
+<li>17、说一下runloop和线程的关系。</li>
+<li>18、说一下autoreleasePool的实现原理。</li>
+<li>19、说一下简单工厂模式，工厂模式以及抽象工厂模式？</li>
+<li>20、如何设计一个网络请求库？</li>
+<li>21、说一下多线程，你平常是怎么用的？</li>
+<li>22、说一下UITableViewCell的卡顿你是怎么优化的？</li>
+<li>23、看过哪些三方库？说一下实现原理以及好在哪里？</li>
+<li>24、说一下HTTP协议以及经常使用的code码的含义。</li>
+<li>25、设计一套缓存策略。</li>
+<li>26、设计一个检测主线和卡顿的方案。</li>
+<li>27、说一下runtime，工作是如何使用的？看过runtime源码吗？</li>
+<li>28、说几个你在工作中使用到的线程安全的例子。</li>
+<li>29、用过哪些锁？哪些锁的性能比较高？</li>
+<li>30、说一下HTTP和HTTPs的请求过程？</li>
+<li>31、说一下TCP和UDP</li>
+<li>32、说一下静态库和动态库之间的区别</li>
+<li>33、load和initialize方法分别在什么时候调用的？</li>
+<li>34、NSNotificationCenter是在哪个线程发送的通知？</li>
+<li>35、用过swift吗？如果没有，平常有学习吗？</li>
+<li>36、说一下你对架构的理解？</li>
+<li>37、为什么一定要在主线程里面更新UI？</li>
+</ul>
+<p><a href="https://www.jianshu.com/p/980eb40d1b21" target="_blank" rel="noopener">我的iOS面试经历（附面试题干货）</a></p>
 
-<h1 id="Content-of-the-course"><a href="#Content-of-the-course" class="headerlink" title="Content of the course"></a>Content of the course</h1><ol>
-<li><p>Would you like to live in a big city? Why or why not?</p>
-</li>
-<li><p>Describe your city, town or village and the reasons you like living there.<br>What is the biggest city you have ever been to?<br>Name one thing you liked or disliked about it.</p>
-</li>
-<li><p>Did you talk about any of these factors?</p>
-<ul>
-<li>lots of job opportunities</li>
-<li>affordable housing prices</li>
-<li>low cost of living</li>
-<li>excellent public transportation</li>
-<li>fantastic weather</li>
-<li>low crime rate</li>
-</ul>
-</li>
-</ol>
-<p>Rank these factors in order of importance to you.<br>Which are most important? Which are less important?<br>What other factors can you add to the ranking?<br>    - close to parents<br>    - beaches<br>    - clean environment</p>
-<ol start="4">
-<li>How do these factors describe the place where you live?<br>Compare your answers with those of your classmates.<ul>
-<li>I agree strongly / I agree / I disagree / I disagree strongly.</li>
-<li>The housing prices are affordable.</li>
-<li>There’s excellent public transportation.</li>
-<li>There are a lot of parks and other areas for recreation.</li>
-<li>The people are friendly.</li>
-<li>There’s a wide variety of shops and restaurants.</li>
-</ul>
-</li>
-</ol>
-<p>What are some negative factors about the place where you live?<br>For example, is the crime rate high? Is there a lot of pollution?</p>
-<ol start="5">
-<li><p>Imagine you are talking to a friend about the city you’d most like to live in. Discuss the reasons you would like to live there.</p>
-<ul>
-<li><p>Student A: Suggest a city to Student B and explain what factors make it attractive to you.</p>
-</li>
-<li><p>Student B: React to Student A’s suggestion and offer your own opinion about a city you’d like to live in.</p>
-<p>Example:</p>
-</li>
-<li><p>I’d like to live in New York. Job opportunities are most important to me, and there are plenty of jobs.</p>
-</li>
-<li><p>Yes, but the cost of living is really high, and so are housing prices. I’d rather live in Dublin. The people are so friendly.</p>
-</li>
-</ul>
-</li>
-<li><p>Today we …</p>
-<ul>
-<li>talked about the benefits and drawbacks of city living.</li>
-<li>discussed reasons for choosing a city to live in.</li>
-<li>ranked factors of city living in order of importance to us.</li>
-</ul>
-</li>
-<li><p>Before you go…</p>
-<ul>
-<li>Have you ever heard this expression？ ‘It’s a nice place to visit, but I wouldn’t want to live there.’ Name a city you would like to visit but wouldn’t want to live in. Say why.</li>
-<li>Make a list of the top three cities in the world. Name a characteristic that is important to you for each city.</li>
-</ul>
-</li>
-</ol>
-<h1 id="Content-of-the-course-1"><a href="#Content-of-the-course-1" class="headerlink" title="Content of the course"></a>Content of the course</h1><h1 id="In-conclusion"><a href="#In-conclusion" class="headerlink" title="In conclusion"></a>In conclusion</h1>
     </div>
 
     
@@ -313,7 +276,8 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/EF-GL-Advcanced/" rel="tag"># EF-GL-Advcanced</a>
+              <a href="/tags/iOS%E9%9D%A2%E8%AF%95/" rel="tag"># iOS面试</a>
+              <a href="/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" rel="tag"># 性能优化</a>
           </div>
 
         
@@ -322,10 +286,13 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/03/30/%E3%80%90%E8%8B%B1%E8%AF%AD%E3%80%91EF_GL_Advaced_Giving_constructive_criticism/" rel="prev" title="【GL-Advcanced】Giving constructive criticism - 提出建设性的批评">
-      <i class="fa fa-chevron-left"></i> 【GL-Advcanced】Giving constructive criticism - 提出建设性的批评
+    <a href="/2013/07/13/%E3%80%90%E8%B5%84%E6%BA%90%E3%80%91%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%96%99/" rel="prev" title="【资源】学习资料">
+      <i class="fa fa-chevron-left"></i> 【资源】学习资料
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2016/05/26/%E3%80%90iOS%E9%9D%A2%E8%AF%95%E3%80%91%E9%9D%A2%E8%AF%95%E9%A2%9801/" rel="next" title="【iOS面试】面试题（阿里-P6一面-参考思路）">
+      【iOS面试】面试题（阿里-P6一面-参考思路） <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -385,7 +352,6 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Vocabularies-of-the-course"><span class="nav-number">1.</span> <span class="nav-text">Vocabularies of the course</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Phrases-of-course"><span class="nav-number">2.</span> <span class="nav-text">Phrases of course</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Content-of-the-course"><span class="nav-number">3.</span> <span class="nav-text">Content of the course</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Content-of-the-course-1"><span class="nav-number">4.</span> <span class="nav-text">Content of the course</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#In-conclusion"><span class="nav-number">5.</span> <span class="nav-text">In conclusion</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 

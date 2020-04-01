@@ -163,7 +163,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2013/07/13/%E3%80%90%E7%AE%97%E6%B3%95%E3%80%91%E6%9F%A5%E6%89%BE%E6%9C%80%E9%95%BF%E5%AD%97%E7%AC%A6%E4%B8%B2%E9%95%BF%E5%BA%A6/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/05/26/%E3%80%90iOS%E3%80%91%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%8D%98%E4%BE%8B%E6%A8%A1%E5%BC%8F/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -177,7 +177,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2013/07/13/%E3%80%90%E7%AE%97%E6%B3%95%E3%80%91%E6%9F%A5%E6%89%BE%E6%9C%80%E9%95%BF%E5%AD%97%E7%AC%A6%E4%B8%B2%E9%95%BF%E5%BA%A6/" class="post-title-link" itemprop="url">【算法】在一个以空格分隔的字符串中，求最长子串长度，时间和空间复杂度尽可能最优。</a>
+            <a href="/2016/05/26/%E3%80%90iOS%E3%80%91%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%8D%98%E4%BE%8B%E6%A8%A1%E5%BC%8F/" class="post-title-link" itemprop="url">【iOS】iOS设计模式 - 単例模式</a>
         </h2>
 
         <div class="post-meta">
@@ -187,14 +187,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2013-07-13 20:46:25" itemprop="dateCreated datePublished" datetime="2013-07-13T20:46:25+08:00">2013-07-13</time>
+              <time title="创建时间：2016-05-26 06:00:00" itemprop="dateCreated datePublished" datetime="2016-05-26T06:00:00+08:00">2016-05-26</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-03-29 19:10:57" itemprop="dateModified" datetime="2020-03-29T19:10:57+08:00">2020-03-29</time>
+                <time title="修改时间：2020-03-30 20:20:35" itemprop="dateModified" datetime="2020-03-30T20:20:35+08:00">2020-03-30</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -206,7 +206,7 @@
                 </span>
                   ，
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/iOS/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
+                  <a href="/categories/iOS/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" itemprop="url" rel="index"><span itemprop="name">设计模式</span></a>
                 </span>
             </span>
 
@@ -221,10 +221,229 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>在一个以空格分隔的字符串中，求最长子串长度，时间和空间复杂度尽可能最优。例如：”a bc defg ghi j k l mn op q”；<br>解决方案：使用C语言实现的</p>
+          <h1 id="単例的书写各式"><a href="#単例的书写各式" class="headerlink" title="単例的书写各式"></a>単例的书写各式</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">+ (id)sharedInstance</span><br><span class="line">&#123;</span><br><span class="line">    &#x2F;&#x2F; 静态局部变量</span><br><span class="line">    static Mooc *instance &#x3D; nil;</span><br><span class="line">    </span><br><span class="line">    &#x2F;&#x2F; 通过dispatch_once方式 确保instance在多线程环境下只被创建一次</span><br><span class="line">    static dispatch_once_t onceToken;</span><br><span class="line">    dispatch_once(&amp;onceToken, ^&#123;</span><br><span class="line">        &#x2F;&#x2F; 创建实例</span><br><span class="line">        instance &#x3D; [[super allocWithZone:NULL] init];</span><br><span class="line">    &#125;);</span><br><span class="line">    return instance;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 重写方法【必不可少】</span><br><span class="line">+ (id)allocWithZone:(struct _NSZone *)zone&#123;</span><br><span class="line">    return [self sharedInstance];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 重写方法【必不可少】</span><br><span class="line">- (id)copyWithZone:(nullable NSZone *)zone&#123;</span><br><span class="line">    return self;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2013/07/13/%E3%80%90%E7%AE%97%E6%B3%95%E3%80%91%E6%9F%A5%E6%89%BE%E6%9C%80%E9%95%BF%E5%AD%97%E7%AC%A6%E4%B8%B2%E9%95%BF%E5%BA%A6/#more" rel="contents">
+              <a class="btn" href="/2016/05/26/%E3%80%90iOS%E3%80%91%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%8D%98%E4%BE%8B%E6%A8%A1%E5%BC%8F/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/05/26/%E3%80%90iOS%E9%9D%A2%E8%AF%95%E3%80%91%E9%9D%A2%E8%AF%95%E9%A2%9801/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="张博文">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="张博文的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2016/05/26/%E3%80%90iOS%E9%9D%A2%E8%AF%95%E3%80%91%E9%9D%A2%E8%AF%95%E9%A2%9801/" class="post-title-link" itemprop="url">【iOS面试】面试题（阿里-P6一面-参考思路）</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2016-05-26 06:00:00" itemprop="dateCreated datePublished" datetime="2016-05-26T06:00:00+08:00">2016-05-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-03-31 22:08:57" itemprop="dateModified" datetime="2020-03-31T22:08:57+08:00">2020-03-31</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index"><span itemprop="name">iOS</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" itemprop="url" rel="index"><span itemprop="name">性能优化</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="阿里-p6-一面"><a href="#阿里-p6-一面" class="headerlink" title="阿里-p6-一面"></a>阿里-p6-一面</h3><p>1.介绍下内存的几大区域？</p>
+<p>2.你是如何组件化解耦的？</p>
+<p>3.runtime如何通过selector找到对应的IMP地址</p>
+<p>4.runloop内部实现逻辑？</p>
+<p>5.你理解的多线程？</p>
+<p>6.GCD执行原理？</p>
+<p>7.怎么防止别人反编译你的app？</p>
+<p>8.YYAsyncLayer如何异步绘制？</p>
+<p>9.优化你是从哪几方面着手？</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2016/05/26/%E3%80%90iOS%E9%9D%A2%E8%AF%95%E3%80%91%E9%9D%A2%E8%AF%95%E9%A2%9801/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/05/26/%E3%80%90iOS%E9%9D%A2%E8%AF%95%E3%80%91%E9%9D%A2%E8%AF%95%E9%A2%9802/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="张博文">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="张博文的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2016/05/26/%E3%80%90iOS%E9%9D%A2%E8%AF%95%E3%80%91%E9%9D%A2%E8%AF%95%E9%A2%9802/" class="post-title-link" itemprop="url">【iOS面试】面试题（阿里-P6一面-参考思路）</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2016-05-26 06:00:00" itemprop="dateCreated datePublished" datetime="2016-05-26T06:00:00+08:00">2016-05-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-03-31 22:11:40" itemprop="dateModified" datetime="2020-03-31T22:11:40+08:00">2020-03-31</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index"><span itemprop="name">iOS</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" itemprop="url" rel="index"><span itemprop="name">性能优化</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <ul>
+<li></li>
+<li>1、说一下OC的反射机制；</li>
+<li>2、block的实质是什么？有几种block？分别是怎样产生的？</li>
+<li>3、__block修饰的变量为什么能在block里面能改变其值？</li>
+<li>4、说一下线程之间的通信。</li>
+<li>5、你们应用的崩溃率是多少？</li>
+<li>6、说一下hash算法。</li>
+<li>7、NSDictionary的实现原理是什么？</li>
+<li>8、你们的App是如何处理本地数据安全的（比如用户名的密码）？</li>
+<li>9、遇到过BAD_ACCESS的错误吗？你是怎样调试的？</li>
+<li>10、什么是指针常量和常量指针？</li>
+<li>11、不借用第三个变量，如何交换两个变量的值？要求手动写出交换过程。</li>
+<li>12、若你去设计一个通知中心，你会怎样设计？</li>
+<li>13、如何去设计一个方案去应对后端频繁更改的字段接口？</li>
+<li>14、KVO、KVC的实现原理</li>
+<li>15、用递归算法求1到n的和</li>
+<li>16、category为什么不能添加属性？</li>
+<li>17、说一下runloop和线程的关系。</li>
+<li>18、说一下autoreleasePool的实现原理。</li>
+<li>19、说一下简单工厂模式，工厂模式以及抽象工厂模式？</li>
+<li>20、如何设计一个网络请求库？</li>
+<li>21、说一下多线程，你平常是怎么用的？</li>
+<li>22、说一下UITableViewCell的卡顿你是怎么优化的？</li>
+<li>23、看过哪些三方库？说一下实现原理以及好在哪里？</li>
+<li>24、说一下HTTP协议以及经常使用的code码的含义。</li>
+<li>25、设计一套缓存策略。</li>
+<li>26、设计一个检测主线和卡顿的方案。</li>
+<li>27、说一下runtime，工作是如何使用的？看过runtime源码吗？</li>
+<li>28、说几个你在工作中使用到的线程安全的例子。</li>
+<li>29、用过哪些锁？哪些锁的性能比较高？</li>
+<li>30、说一下HTTP和HTTPs的请求过程？</li>
+<li>31、说一下TCP和UDP</li>
+<li>32、说一下静态库和动态库之间的区别</li>
+<li>33、load和initialize方法分别在什么时候调用的？</li>
+<li>34、NSNotificationCenter是在哪个线程发送的通知？</li>
+<li>35、用过swift吗？如果没有，平常有学习吗？</li>
+<li>36、说一下你对架构的理解？</li>
+<li>37、为什么一定要在主线程里面更新UI？</li>
+</ul>
+<p><a href="https://www.jianshu.com/p/980eb40d1b21" target="_blank" rel="noopener">我的iOS面试经历（附面试题干货）</a></p>
+
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2016/05/26/%E3%80%90iOS%E9%9D%A2%E8%AF%95%E3%80%91%E9%9D%A2%E8%AF%95%E9%A2%9802/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -312,6 +531,91 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2013/07/13/%E3%80%90%E8%B5%84%E6%BA%90%E3%80%91%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%96%99/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2013/07/13/%E3%80%90%E7%AE%97%E6%B3%95%E3%80%91%E6%9F%A5%E6%89%BE%E6%9C%80%E9%95%BF%E5%AD%97%E7%AC%A6%E4%B8%B2%E9%95%BF%E5%BA%A6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="张博文">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="张博文的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2013/07/13/%E3%80%90%E7%AE%97%E6%B3%95%E3%80%91%E6%9F%A5%E6%89%BE%E6%9C%80%E9%95%BF%E5%AD%97%E7%AC%A6%E4%B8%B2%E9%95%BF%E5%BA%A6/" class="post-title-link" itemprop="url">【算法】在一个以空格分隔的字符串中，求最长子串长度，时间和空间复杂度尽可能最优。</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2013-07-13 20:46:25" itemprop="dateCreated datePublished" datetime="2013-07-13T20:46:25+08:00">2013-07-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-03-29 19:10:57" itemprop="dateModified" datetime="2020-03-29T19:10:57+08:00">2020-03-29</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index"><span itemprop="name">iOS</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>在一个以空格分隔的字符串中，求最长子串长度，时间和空间复杂度尽可能最优。例如：”a bc defg ghi j k l mn op q”；<br>解决方案：使用C语言实现的</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2013/07/13/%E3%80%90%E7%AE%97%E6%B3%95%E3%80%91%E6%9F%A5%E6%89%BE%E6%9C%80%E9%95%BF%E5%AD%97%E7%AC%A6%E4%B8%B2%E9%95%BF%E5%BA%A6/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -491,7 +795,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">13</span>
+          <span class="site-state-item-count">16</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
