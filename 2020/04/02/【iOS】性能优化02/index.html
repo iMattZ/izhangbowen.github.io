@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Gemini","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="在我们通常的开发工作中，每次需求定下来的时候，开发时间都是很紧张的，于是我们就抓紧时间开发，完成需求。在匆忙开发的过程中，或多或少的会有一些性能问题存在，在开发任务完成以后，我们都要进行性能优化。现将我在开发过程中的性能优化问题分享如下。 一、数据压缩在程序的运行过程中，数据的传输也是影响程序性能的一个方面。在传输速度不变的情况下，数据量大，传输需要的时间就多，数据量小，传输需要的时间自然就少。传">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【iOS】iOS性能优化的一点看法">
+<meta property="og:url" content="http://yoursite.com/2020/04/02/%E3%80%90iOS%E3%80%91%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%9602/index.html">
+<meta property="og:site_name" content="张博文的博客">
+<meta property="og:description" content="在我们通常的开发工作中，每次需求定下来的时候，开发时间都是很紧张的，于是我们就抓紧时间开发，完成需求。在匆忙开发的过程中，或多或少的会有一些性能问题存在，在开发任务完成以后，我们都要进行性能优化。现将我在开发过程中的性能优化问题分享如下。 一、数据压缩在程序的运行过程中，数据的传输也是影响程序性能的一个方面。在传输速度不变的情况下，数据量大，传输需要的时间就多，数据量小，传输需要的时间自然就少。传">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-04-01T22:00:00.000Z">
+<meta property="article:modified_time" content="2020-04-03T12:05:21.862Z">
+<meta property="article:author" content="张博文">
+<meta property="article:tag" content="iOS面试">
+<meta property="article:tag" content="性能优化">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://yoursite.com/2020/04/02/%E3%80%90iOS%E3%80%91%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%9602/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>【iOS】iOS性能优化的一点看法 | 张博文的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">张博文的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Stay hungry，stay foolish</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-languages">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-languages"></i>languages</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/02/%E3%80%90iOS%E3%80%91%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%9602/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="张博文">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="张博文的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          【iOS】iOS性能优化的一点看法
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-04-02 06:00:00" itemprop="dateCreated datePublished" datetime="2020-04-02T06:00:00+08:00">2020-04-02</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-04-03 20:05:21" itemprop="dateModified" datetime="2020-04-03T20:05:21+08:00">2020-04-03</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index"><span itemprop="name">iOS</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" itemprop="url" rel="index"><span itemprop="name">性能优化</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>在我们通常的开发工作中，每次需求定下来的时候，开发时间都是很紧张的，于是我们就抓紧时间开发，完成需求。在匆忙开发的过程中，或多或少的会有一些性能问题存在，在开发任务完成以后，我们都要进行性能优化。现将我在开发过程中的性能优化问题分享如下。</p>
+<h1 id="一、数据压缩"><a href="#一、数据压缩" class="headerlink" title="一、数据压缩"></a>一、数据压缩</h1><p>在程序的运行过程中，数据的传输也是影响程序性能的一个方面。在传输速度不变的情况下，数据量大，传输需要的时间就多，数据量小，传输需要的时间自然就少。传入需要的时间少，我们的程序的响应速度自然就变快了。</p>
+<h2 id="1-对网络传输的数据进行压缩"><a href="#1-对网络传输的数据进行压缩" class="headerlink" title="1.对网络传输的数据进行压缩"></a>1.对网络传输的数据进行压缩</h2><p>这一步需要和服务端配合，服务端需要开启数据压缩的配置。而对于移动端来说，网上开源的AFNetWorking框架已经帮我们实现了这个功能，我们只要在我们定义的网络请求基类中开启这个功能就可以了。<br>代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;**</span><br><span class="line"> *  请求数据开启gzip压缩</span><br><span class="line"> *&#x2F;</span><br><span class="line">[self.sessionManager.requestSerializer setValue:@&quot;gzip&quot; forHTTPHeaderField:@&quot;Accept-Encoding&quot;];</span><br></pre></td></tr></table></figure>
+<h2 id="2-对下载的图片进行数据压缩"><a href="#2-对下载的图片进行数据压缩" class="headerlink" title="2. 对下载的图片进行数据压缩"></a>2. 对下载的图片进行数据压缩</h2><p>这一步对程序性能的提升效果很明显。我之前在的公司的App是做拍卖的，照片拍的很精细，有的一张图片好几M，下载到App，图片已解析，直接就闪退了。我们进行过追踪，这种大图片下载下来一解析，手机内存直接爆了。所以我们对下载的图片进行了压缩。</p>
+<h3 id="2-1-对图片的尺寸进行压缩"><a href="#2-1-对图片的尺寸进行压缩" class="headerlink" title="2.1 对图片的尺寸进行压缩"></a>2.1 对图片的尺寸进行压缩</h3><p>我们和服务端商量后进行改进。我们请求下载图片的时候，加上图片的尺寸，服务端返回给我们对应大小的图片。<br>客户端的优化方案：根据屏幕的宽度和设计师给定的尺寸，计算出当前手机需要的图片尺寸，然后上尺寸向服务端请求下载图片。</p>
+<h3 id="2-2-对下载图片的数据量进行压缩"><a href="#2-2-对下载图片的数据量进行压缩" class="headerlink" title="2.2 对下载图片的数据量进行压缩"></a>2.2 对下载图片的数据量进行压缩</h3><p>下载图片的数据量的压缩对性能提升效果很明显的，SDWebImage/WebP对图片的压缩率高，肉眼看不出差异。只要安装了这个第三方库，我们可以像之前一样使用图片下载。</p>
+<h1 id="二、数据缓存"><a href="#二、数据缓存" class="headerlink" title="二、数据缓存"></a>二、数据缓存</h1><p>对于一些不需要实时更新的数据，比如图片、文本，我们可以缓存到本地，设置一个国企时间，不需要每次都去加载。这样既能节省用户的流量，也能提升我们程序的性能。</p>
+<p>对于一些耗时但是又不需要变动的计算结果，我们可以把它缓存下来。比如动态cell的行高，耗时的计算结果。</p>
+<h1 id="三、使用lazyload加载UI和数据"><a href="#三、使用lazyload加载UI和数据" class="headerlink" title="三、使用lazyload加载UI和数据"></a>三、使用lazyload加载UI和数据</h1><p>使用lazyload对UI和数据进行加载。lazyload叫懒加载或者延时加载，是等到真正需要这个控件或者数据的时候才去进行加载，尽可能的保证值加载当前需要的控件或者数据，减少加载的任务。不要一进入VC就把所有的数据和UI控件都加载好，这样会影响加载速度，从而影响用户体验。所以不管是对于数据，还是UI控件，我们应该在需要的时候采取加载，把加载过程分散出去，使程序加载尽可能的快。</p>
+<h1 id="四、使用Instruments对App进行检测"><a href="#四、使用Instruments对App进行检测" class="headerlink" title="四、使用Instruments对App进行检测"></a>四、使用Instruments对App进行检测</h1><p>我们在要一个阶段的开发任务完成以后，一个使用Instruments对我们的程序的性能进行检测，从而有针对性的进行优化。</p>
+<p>需要进行优化的点如下：<br>    - 使用Leaks检测是否有内存泄漏<br>    - 使用Core Animation进行图层检测。<br>    - 使用Time Profile检测是否有比较耗时的操作，从而进行对应的代码优化</p>
+<h1 id="五、集合的使用"><a href="#五、集合的使用" class="headerlink" title="五、集合的使用"></a>五、集合的使用</h1><p>在开发的过程中，对于一些只用于存储和读取，中间不需要进行更新的集合，我们应该尽量使用不可变集合，因为可变集合会占用比不可变集合更多的内存空间。<br>例如：NSArray/NSMutableArray,NSDictionary/NSMutableDictionary,NSSet/NSMutableSet<br>对于不同的场景使用不同的集合方式：</p>
+<h1 id="六、使用GCD来进行优化"><a href="#六、使用GCD来进行优化" class="headerlink" title="六、使用GCD来进行优化"></a>六、使用GCD来进行优化</h1><p>对于一些比较耗时的操作，我们应该使用GCD开启新的线程来进行操作，使得App能够运行的更久流畅，响应更快。但是使用GCD时需要注意避免可能引起线程爆炸和死锁的情况，还有非主线程处理任务也不是万能的，如果一个处理需要消耗大量内存或者大量CPU操作GCD也没办法帮你，只能通过将处理进行拆解分步骤分时间进行处理才比较妥当。</p>
+<h1 id="七、I-O性能优化"><a href="#七、I-O性能优化" class="headerlink" title="七、I/O性能优化"></a>七、I/O性能优化</h1><p>I/O 是性能消耗大户，任何的 I/O 操作都会使低功耗状态被打破，所以减少 I/O 次数是这个性能优化的关键点，为了达成这个目下面列出一些方法。</p>
+<ul>
+<li>将零碎的内容作为一个整体进行写入</li>
+<li>使用合适的 I/O 操作 API</li>
+<li>使用合适的线程</li>
+<li>使用 NSCache 做缓存能够减少 I/O</li>
+</ul>
+<h1 id="八、在耗内存操作中合理的使用AutoReleasePool"><a href="#八、在耗内存操作中合理的使用AutoReleasePool" class="headerlink" title="八、在耗内存操作中合理的使用AutoReleasePool"></a>八、在耗内存操作中合理的使用AutoReleasePool</h1><p>对于一些大循环或者耗内存的循环，我们应该在循环的内部使用AutoRelasePool来进行内存的释放，这样的话可以保证内存尽快的被回收。降低系统的内存压力</p>
+<h1 id="九、耗时操作的缓存"><a href="#九、耗时操作的缓存" class="headerlink" title="九、耗时操作的缓存"></a>九、耗时操作的缓存</h1><p>在开发的过程中，如果遇到类似日期格式转换的操作，我们应该对这样的操作进行缓存，因为使用instrument对它进行性能检测，我们会发现，这是比较耗时的操作。<br>实际案例：在之前的开发中，我们发现有一个计算ID的操作非常耗时，每次都去计算，非常影响程序的性能。于是我们对计算得到的ID进行缓存，在之后的操作中，不再进行计算，直接读缓存结果。我们发现性能有了明显的提升。</p>
+<h1 id="十、算法优化"><a href="#十、算法优化" class="headerlink" title="十、算法优化"></a>十、算法优化</h1><p>开发过程中我们前期可能为了赶项目进度，只是尽量快的去完成开发任务。当我们再回头看代码的时候，发现有的算法是比较耗时的，还可以对其进行进一步的优化，使我们程序的性能更佳。所以，我们在开发任务不是很重的时候，应该对之前写的一些算法进行检查，优化。</p>
+<h1 id="十一、安装包瘦身"><a href="#十一、安装包瘦身" class="headerlink" title="十一、安装包瘦身"></a>十一、安装包瘦身</h1><p>安装包的大小，对于程序的性能还是有一定影响的。在我们的不断的版本迭代过程中，或多或少的产生了一些不再需要的图片、文件，这些文件我们在打包的时候也会打包进去，这些文件以防是安装包变大，另一方面影响我们程序的性能，我们应该将其删除。具体的的操作请看我的另一篇文章。传送门</p>
+<p><a href="https://segmentfault.com/a/1190000014061934" target="_blank" rel="noopener">对于iOS性能优化的一点看法</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/iOS%E9%9D%A2%E8%AF%95/" rel="tag"># iOS面试</a>
+              <a href="/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" rel="tag"># 性能优化</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/04/01/%E3%80%90%E8%8B%B1%E8%AF%AD%E3%80%91EF_GL_Advanced_Discussing_work-life_balance/" rel="prev" title="【GL-Advcanced】Discussing work-life balance - 讨论工作和生活的平衡">
+      <i class="fa fa-chevron-left"></i> 【GL-Advcanced】Discussing work-life balance - 讨论工作和生活的平衡
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/04/02/%E3%80%90%E8%8B%B1%E8%AF%AD%E3%80%91EF_GL_Advanced_Talking_about_immigration/" rel="next" title="【GL-Advcanced】Talking about immigration - 谈论移民">
+      【GL-Advcanced】Talking about immigration - 谈论移民 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一、数据压缩"><span class="nav-number">1.</span> <span class="nav-text">一、数据压缩</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-对网络传输的数据进行压缩"><span class="nav-number">1.1.</span> <span class="nav-text">1.对网络传输的数据进行压缩</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-对下载的图片进行数据压缩"><span class="nav-number">1.2.</span> <span class="nav-text">2. 对下载的图片进行数据压缩</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-对图片的尺寸进行压缩"><span class="nav-number">1.2.1.</span> <span class="nav-text">2.1 对图片的尺寸进行压缩</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-对下载图片的数据量进行压缩"><span class="nav-number">1.2.2.</span> <span class="nav-text">2.2 对下载图片的数据量进行压缩</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二、数据缓存"><span class="nav-number">2.</span> <span class="nav-text">二、数据缓存</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三、使用lazyload加载UI和数据"><span class="nav-number">3.</span> <span class="nav-text">三、使用lazyload加载UI和数据</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#四、使用Instruments对App进行检测"><span class="nav-number">4.</span> <span class="nav-text">四、使用Instruments对App进行检测</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#五、集合的使用"><span class="nav-number">5.</span> <span class="nav-text">五、集合的使用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#六、使用GCD来进行优化"><span class="nav-number">6.</span> <span class="nav-text">六、使用GCD来进行优化</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#七、I-O性能优化"><span class="nav-number">7.</span> <span class="nav-text">七、I&#x2F;O性能优化</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#八、在耗内存操作中合理的使用AutoReleasePool"><span class="nav-number">8.</span> <span class="nav-text">八、在耗内存操作中合理的使用AutoReleasePool</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#九、耗时操作的缓存"><span class="nav-number">9.</span> <span class="nav-text">九、耗时操作的缓存</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#十、算法优化"><span class="nav-number">10.</span> <span class="nav-text">十、算法优化</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#十一、安装包瘦身"><span class="nav-number">11.</span> <span class="nav-text">十一、安装包瘦身</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">张博文</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">22</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">张博文</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
