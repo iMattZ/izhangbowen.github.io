@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Gemini","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="由于问题量太大，本文只是给了问题，希望发挥圈友的动手能力，自己去探索下，也可以在下方进行评论回复你的答案或者提出更高质量的问题！！！ runtime相关问题runtime是iOS开发最核心的知识了，如果下面的问题都解决了，那么对runtime的理解已经很深了。 runtime已经开源了，这有一份别人调试好可运行的源码objc-runtime，也可以去官网找objc4 结构模型 介绍下runtime">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【iOS】阿里、字节：一套高效的iOS面试题">
+<meta property="og:url" content="http://yoursite.com/2019/12/26/%E3%80%90iOS%E3%80%91%E9%98%BF%E9%87%8C%E3%80%81%E5%AD%97%E8%8A%82%EF%BC%9A%E4%B8%80%E5%A5%97%E9%AB%98%E6%95%88%E7%9A%84iOS%E9%9D%A2%E8%AF%95%E9%A2%98/index.html">
+<meta property="og:site_name" content="张博文的博客">
+<meta property="og:description" content="由于问题量太大，本文只是给了问题，希望发挥圈友的动手能力，自己去探索下，也可以在下方进行评论回复你的答案或者提出更高质量的问题！！！ runtime相关问题runtime是iOS开发最核心的知识了，如果下面的问题都解决了，那么对runtime的理解已经很深了。 runtime已经开源了，这有一份别人调试好可运行的源码objc-runtime，也可以去官网找objc4 结构模型 介绍下runtime">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-12-25T22:00:00.000Z">
+<meta property="article:modified_time" content="2020-04-05T03:23:47.980Z">
+<meta property="article:author" content="张博文">
+<meta property="article:tag" content="iOS面试">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://yoursite.com/2019/12/26/%E3%80%90iOS%E3%80%91%E9%98%BF%E9%87%8C%E3%80%81%E5%AD%97%E8%8A%82%EF%BC%9A%E4%B8%80%E5%A5%97%E9%AB%98%E6%95%88%E7%9A%84iOS%E9%9D%A2%E8%AF%95%E9%A2%98/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>【iOS】阿里、字节：一套高效的iOS面试题 | 张博文的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">张博文的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Stay hungry，stay foolish</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-languages">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-languages"></i>languages</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/26/%E3%80%90iOS%E3%80%91%E9%98%BF%E9%87%8C%E3%80%81%E5%AD%97%E8%8A%82%EF%BC%9A%E4%B8%80%E5%A5%97%E9%AB%98%E6%95%88%E7%9A%84iOS%E9%9D%A2%E8%AF%95%E9%A2%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="张博文">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="张博文的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          【iOS】阿里、字节：一套高效的iOS面试题
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-12-26 06:00:00" itemprop="dateCreated datePublished" datetime="2019-12-26T06:00:00+08:00">2019-12-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-04-05 11:23:47" itemprop="dateModified" datetime="2020-04-05T11:23:47+08:00">2020-04-05</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index"><span itemprop="name">iOS</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/%E9%9D%A2%E8%AF%95%E9%A2%98/" itemprop="url" rel="index"><span itemprop="name">面试题</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>由于问题量太大，本文只是给了问题，希望发挥圈友的动手能力，自己去探索下，也可以在下方进行评论回复你的答案或者提出更高质量的问题！！！</p>
+<h2 id="runtime相关问题"><a href="#runtime相关问题" class="headerlink" title="runtime相关问题"></a>runtime相关问题</h2><p>runtime是iOS开发最核心的知识了，如果下面的问题都解决了，那么对runtime的理解已经很深了。 runtime已经开源了，这有一份别人调试好可运行的源码objc-runtime，也可以去官网找objc4</p>
+<h2 id="结构模型"><a href="#结构模型" class="headerlink" title="结构模型"></a>结构模型</h2><ol>
+<li>介绍下runtime的内存模型（isa、对象、类、metaclass、结构体的存储信息等）</li>
+<li>为什么要设计metaclass</li>
+<li>class_copyIvarList &amp; class_copyPropertyList区别</li>
+<li>class_rw_t 和 class_ro_t 的区别</li>
+<li>category如何被加载的,两个category的load方法的加载顺序，两个category的同名方法的加载顺序</li>
+<li>category &amp; extension区别，能给NSObject添加Extension吗，结果如何</li>
+<li>消息转发机制，消息转发机制和其他语言的消息机制优劣对比</li>
+<li>在方法调用的时候，方法查询-&gt; 动态解析-&gt; 消息转发 之前做了什么</li>
+<li>IMP、SEL、Method的区别和使用场景</li>
+<li>load、initialize方法的区别什么？在继承关系中他们有什么区别</li>
+<li>说说消息转发机制的优劣</li>
+</ol>
+<h2 id="内存管理"><a href="#内存管理" class="headerlink" title="内存管理"></a>内存管理</h2><ol>
+<li>weak的实现原理？SideTable的结构是什么样的</li>
+<li>关联对象的应用？系统如何实现关联对象的</li>
+<li>关联对象的如何进行内存管理的？关联对象如何实现weak属性</li>
+<li>Autoreleasepool的原理？所使用的的数据结构是什么</li>
+<li>ARC的实现原理？ARC下对retain &amp; release做了哪些优化</li>
+<li>ARC下哪些情况会造成内存泄漏</li>
+</ol>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ol>
+<li>Method Swizzle注意事项</li>
+<li>属性修饰符atomic的内部实现是怎么样的?能保证线程安全吗</li>
+<li>iOS 中内省的几个方法有哪些？内部实现原理是什么</li>
+<li>class、objc_getClass、object_getclass 方法有什么区别?</li>
+</ol>
+<h2 id="NSNotification相关"><a href="#NSNotification相关" class="headerlink" title="NSNotification相关"></a>NSNotification相关</h2><p>苹果并没有开源相关代码，但是可以读下GNUStep的源码，基本上实现方式很具有参考性</p>
+<ol>
+<li>实现原理（结构设计、通知如何存储的、name&amp;observer&amp;SEL之间的关系等）</li>
+<li>通知的发送时同步的，还是异步的</li>
+<li>NSNotificationCenter接受消息和发送消息是在一个线程里吗？如何异步发送消息</li>
+<li>NSNotificationQueue是异步还是同步发送？在哪个线程响应</li>
+<li>NSNotificationQueue和runloop的关系</li>
+<li>如何保证通知接收的线程在主线程</li>
+<li>页面销毁时不移除通知会崩溃吗</li>
+<li>多次添加同一个通知会是什么结果？多次移除通知呢</li>
+<li>下面的方式能接收到通知吗？为什么<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 发送通知</span><br><span class="line">[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleNotification:) name:@&quot;TestNotification&quot; object:@1];</span><br><span class="line">&#x2F;&#x2F; 接收通知</span><br><span class="line">[NSNotificationCenter.defaultCenter postNotificationName:@&quot;TestNotification&quot; object:nil];</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ol>
+<h2 id="Runloop-amp-KVO"><a href="#Runloop-amp-KVO" class="headerlink" title="Runloop &amp; KVO"></a>Runloop &amp; KVO</h2><h1 id="runloop"><a href="#runloop" class="headerlink" title="runloop"></a>runloop</h1><p>runloop对于一个标准的iOS开发来说都不陌生，应该说熟悉runloop是标配，下面就随便列几个典型问题吧</p>
+<ol>
+<li>app如何接收到触摸事件的</li>
+<li>为什么只有主线程的runloop是开启的</li>
+<li>为什么只在主线程刷新UI</li>
+<li>PerformSelector和runloop的关系</li>
+<li>如何使线程保活</li>
+</ol>
+<h3 id="KVO"><a href="#KVO" class="headerlink" title="KVO"></a>KVO</h3><p>同runloop一样，这也是标配的知识点了，同样列出几个典型问题</p>
+<ol>
+<li>实现原理</li>
+<li>如何手动关闭kvo</li>
+<li>通过KVC修改属性会触发KVO么</li>
+<li>哪些情况下使用kvo会崩溃，怎么防护崩溃</li>
+<li>kvo的优缺点</li>
+</ol>
+<h2 id="Block"><a href="#Block" class="headerlink" title="Block"></a>Block</h2><ol>
+<li>block的内部实现，结构体是什么样的</li>
+<li>block是类吗，有哪些类型</li>
+<li>一个int变量被 __block 修饰与否的区别？block的变量截获</li>
+<li>block在修改NSMutableArray，需不需要添加__block</li>
+<li>怎么进行内存管理的</li>
+<li>block可以用strong修饰吗</li>
+<li>解决循环引用时为什么要用<strong>strong、</strong>weak修饰</li>
+<li>block发生copy时机</li>
+<li>Block访问对象类型的auto变量时，在ARC和MRC下有什么区别</li>
+</ol>
+<h2 id="多线程"><a href="#多线程" class="headerlink" title="多线程"></a>多线程</h2><p>主要以GCD为主</p>
+<ol>
+<li>iOS开发中有多少类型的线程？分别对比</li>
+<li>GCD有哪些队列，默认提供哪些队列</li>
+<li>GCD有哪些方法api</li>
+<li>GCD主线程 &amp; 主队列的关系</li>
+<li>如何实现同步，有多少方式就说多少</li>
+<li>dispatch_once实现原理</li>
+<li>什么情况下会死锁</li>
+<li>有哪些类型的线程锁，分别介绍下作用和使用场景</li>
+<li>NSOperationQueue中的maxConcurrentOperationCount默认值</li>
+<li>NSTimer、CADisplayLink、dispatch_source_t 的优劣</li>
+</ol>
+<h2 id="视图-amp-图像相关"><a href="#视图-amp-图像相关" class="headerlink" title="视图&amp;图像相关"></a>视图&amp;图像相关</h2><ol>
+<li>AutoLayout的原理，性能如何</li>
+<li>UIView &amp; CALayer的区别</li>
+<li>事件响应链</li>
+<li>drawrect &amp; layoutsubviews调用时机</li>
+<li>UI的刷新原理</li>
+<li>隐式动画 &amp; 显示动画区别</li>
+<li>什么是离屏渲染</li>
+<li>imageName &amp; imageWithContentsOfFile区别</li>
+<li>多个相同的图片，会重复加载吗</li>
+<li>图片是什么时候解码的，如何优化</li>
+<li>图片渲染怎么优化</li>
+<li>如果GPU的刷新率超过了iOS屏幕60Hz刷新率是什么现象，怎么解决</li>
+</ol>
+<h2 id="性能优化"><a href="#性能优化" class="headerlink" title="性能优化"></a>性能优化</h2><ol>
+<li>如何做启动优化，如何监控</li>
+<li>如何做卡顿优化，如何监控</li>
+<li>如何做耗电优化，如何监控</li>
+<li>如何做网络优化，如何监控</li>
+</ol>
+<h2 id="开发证书"><a href="#开发证书" class="headerlink" title="开发证书"></a>开发证书</h2><ol>
+<li>苹果使用证书的目的是什么</li>
+<li>AppStore安装app时的认证流程</li>
+<li>开发者怎么在debug模式下把app安装到设备呢</li>
+</ol>
+<h2 id="架构设计"><a href="#架构设计" class="headerlink" title="架构设计"></a>架构设计</h2><p>典型源码的学习</p>
+<p>只是列出一些iOS比较核心的开源库，这些库包含了很多高质量的思想，源码学习的时候一定要关注每个框架解决的核心问题是什么，还有它们的优缺点，这样才能算真正理解和吸收</p>
+<ol>
+<li>AFN</li>
+<li>SDWebImage</li>
+<li>JSPatch、Aspects(虽然一个不可用、另一个不维护，但是这两个库都很精炼巧妙，很适合学习)</li>
+<li>Weex/RN, 笔者认为这种前端和客户端紧密联系的库是必须要知道其原理的</li>
+<li>CTMediator、其他router库，这些都是常见的路由库，开发中基本上都会用到</li>
+<li>请圈友们在评论下面补充吧</li>
+</ol>
+<h2 id="架构设计-1"><a href="#架构设计-1" class="headerlink" title="架构设计"></a>架构设计</h2><ol>
+<li>手动埋点、自动化埋点、可视化埋点</li>
+<li>MVC、MVP、MVVM设计模式</li>
+<li>常见的设计模式</li>
+<li>单例的弊端</li>
+<li>常见的路由方案，以及优缺点对比</li>
+<li>如果保证项目的稳定性</li>
+<li>设计一个图片缓存框架(LRU)</li>
+<li>如何设计一个git diff</li>
+<li>设计一个线程池？画出你的架构图</li>
+<li>你的app架构是什么，有什么优缺点、为什么这么做、怎么改进</li>
+</ol>
+<h2 id="其他问题"><a href="#其他问题" class="headerlink" title="其他问题"></a>其他问题</h2><ol>
+<li>PerformSelector &amp; NSInvocation优劣对比</li>
+<li>oc怎么实现多继承？怎么面向切面（可以参考Aspects深度解析-iOS面向切面编程）</li>
+<li>哪些bug会导致崩溃，如何防护崩溃</li>
+<li>怎么监控崩溃</li>
+<li>app的启动过程（考察LLVM编译过程、静态链接、动态链接、runtime初始化）</li>
+<li>沙盒目录的每个文件夹划分的作用</li>
+<li>简述下match-o文件结构</li>
+</ol>
+<p>##系统基础知识</p>
+<ol>
+<li>进程和线程的区别</li>
+<li>HTTPS的握手过程</li>
+<li>什么是中间人攻击？怎么预防</li>
+<li>TCP的握手过程？为什么进行三次握手，四次挥手</li>
+<li>堆和栈区的区别？谁的占用内存空间大</li>
+<li>加密算法：对称加密算法和非对称加密算法区别</li>
+<li>常见的对称加密和非对称加密算法有哪些</li>
+<li>MD5、Sha1、Sha256区别</li>
+<li>charles抓包过程？不使用charles，4G网络如何抓包</li>
+</ol>
+<h2 id="数据结构与算法"><a href="#数据结构与算法" class="headerlink" title="数据结构与算法"></a>数据结构与算法</h2><p>对于移动开发者来说，一般不会遇到非常难的算法，大多以数据结构为主，笔者列出一些必会的算法，当然有时间了可以去LeetCode上刷刷题</p>
+<ol>
+<li>八大排序算法</li>
+<li>栈&amp;队列</li>
+<li>字符串处理</li>
+<li>链表</li>
+<li>二叉树相关操作</li>
+<li>深搜广搜</li>
+<li>基本的动态规划题、贪心算法、二分查找</li>
+</ol>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>这些都是作者收集的加上自身面试的一些经验总结，后期会持续收集补充，欢迎圈内的高手在评论区或者公众号贴上你的答案或者高质量问题</p>
+<p>准备面试是一方面，对于非面试的iOS开发者来说更适用于检验自己，发起进阶之路。另外知识点是琐碎的，但是真的能全部弄懂并把琐碎的知识点融会贯通，构建起自己的知识体系，你就升级了</p>
+<p>参考：<a href="https://www.jianshu.com/p/e87e0be2281f" target="_blank" rel="noopener">阿里、字节：一套高效的iOS面试题</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/iOS%E9%9D%A2%E8%AF%95/" rel="tag"># iOS面试</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/07/13/%E3%80%90%E5%B7%A5%E5%85%B7%E3%80%91%E7%BB%88%E7%AB%AF%E8%AE%A1%E7%AE%97%E4%BB%A3%E7%A0%81%E8%A1%8C%E6%95%B0/" rel="prev" title="【工具】终端计算代码行数">
+      <i class="fa fa-chevron-left"></i> 【工具】终端计算代码行数
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/03/28/%E3%80%90%E8%8B%B1%E8%AF%AD%E3%80%91EF_GL_Advaced_Talking_about_education/" rel="next" title="【GL-Advcanced】Talking about education - 谈论教育">
+      【GL-Advcanced】Talking about education - 谈论教育 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#runtime相关问题"><span class="nav-number">1.</span> <span class="nav-text">runtime相关问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结构模型"><span class="nav-number">2.</span> <span class="nav-text">结构模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#内存管理"><span class="nav-number">3.</span> <span class="nav-text">内存管理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他"><span class="nav-number">4.</span> <span class="nav-text">其他</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NSNotification相关"><span class="nav-number">5.</span> <span class="nav-text">NSNotification相关</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Runloop-amp-KVO"><span class="nav-number">6.</span> <span class="nav-text">Runloop &amp; KVO</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#runloop"><span class="nav-number"></span> <span class="nav-text">runloop</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#KVO"><span class="nav-number">0.1.</span> <span class="nav-text">KVO</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Block"><span class="nav-number">1.</span> <span class="nav-text">Block</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#多线程"><span class="nav-number">2.</span> <span class="nav-text">多线程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#视图-amp-图像相关"><span class="nav-number">3.</span> <span class="nav-text">视图&amp;图像相关</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#性能优化"><span class="nav-number">4.</span> <span class="nav-text">性能优化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#开发证书"><span class="nav-number">5.</span> <span class="nav-text">开发证书</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#架构设计"><span class="nav-number">6.</span> <span class="nav-text">架构设计</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#架构设计-1"><span class="nav-number">7.</span> <span class="nav-text">架构设计</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他问题"><span class="nav-number">8.</span> <span class="nav-text">其他问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据结构与算法"><span class="nav-number">9.</span> <span class="nav-text">数据结构与算法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number"></span> <span class="nav-text">总结</span></a></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">张博文</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">28</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">张博文</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

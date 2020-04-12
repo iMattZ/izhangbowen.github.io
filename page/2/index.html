@@ -161,6 +161,488 @@
   <div class="posts-expand">
       
       
+      
+      
+          
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/29/%E3%80%90%E9%9F%B3%E8%A7%86%E9%A2%91%E3%80%91Shell%E8%84%9A%E6%9C%AC%E8%AF%AD%E8%A8%8001/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="张博文">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="张博文的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/03/29/%E3%80%90%E9%9F%B3%E8%A7%86%E9%A2%91%E3%80%91Shell%E8%84%9A%E6%9C%AC%E8%AF%AD%E8%A8%8001/" class="post-title-link" itemprop="url">【iOS音视频】Shell脚本语言01</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-03-29 20:46:25" itemprop="dateCreated datePublished" datetime="2020-03-29T20:46:25+08:00">2020-03-29</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-03-30 20:00:35" itemprop="dateModified" datetime="2020-03-30T20:00:35+08:00">2020-03-30</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index"><span itemprop="name">iOS</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/%E9%9F%B3%E8%A7%86%E9%A2%91/" itemprop="url" rel="index"><span itemprop="name">音视频</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/%E9%9F%B3%E8%A7%86%E9%A2%91/Shell%E8%84%9A%E6%9C%AC/" itemprop="url" rel="index"><span itemprop="name">Shell脚本</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Shell/" itemprop="url" rel="index"><span itemprop="name">Shell</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <pre><code>内容一：Shell语言
+第一点：Shell介绍？     Android开发：动态库编译（.so文件）
+    iOS开发：静态库（.a文件）    
+    Shell编译
+    掌握基本Shell使用-&gt;修改和应用Shell
+
+第二点：什么是Shell？
+    脚本语言-&gt;编译库（应用技术）
+
+第三点：Shell环境？
+    Mac环境支持Shell开发
+    Shell中类非常多
+        Bash所有的操作系统默认脚本语言（免费、易用）
+        种类：bash、c Shell、K Shell等等...            
+
+第四点：进入Shell语言基础学习？     1、第一个Shell程序？         1.1 创建Shell文件
+            命令：touch hello.sh
+        1.2 编写Shell程序
+            定义文件声明
+            #!/bin/bash
+            echo &quot;Hello world!&quot;    
+
+            #!：表示约定标记，他会告诉系统这个脚本需要什么样子的解释器来执行，既是一种脚本体现。
+            echo：表示命令用于输出文本信息    
+
+        1.3 修改文件权限
+            1.3.1 权限结构
+                分为了4个部分（QQ群为例）
+                第一部分：文件类型-&gt;QQ群类型
+                第二部分：文件所有者-&gt;群主
+                第三部分：所有者同组用户-&gt;管理员
+                第四部分：其他用户-&gt;群成员    
+
+            1.3.2 查看每一个部分权限
+                查看文件权限        
+                命令：ls -l hello.sh
+                    -rw-r—r--
+            1.3.3 修改文件权限
+                命令： chmod +x ./hello.sh
+                    -rwxr-xr-x
+
+        1.4 执行Shell脚本文件
+            命令：./hello.sh
+
+    2、Shell脚本语法-&gt;注释？
+        ”#“-&gt;表示注视
+        例如：
+            脚本代码
+                #!/bin/bash
+                # 输出了Hello world!
+                echo &quot;Hello world!&quot;
+        注意：在Shell脚本中，没有多行注视，只有单行注释
+
+    3、Shell脚本语言-&gt;变量
+        3.1 变量定义-&gt;注意事项
+            注意一：定义变量时候，变量名出不需要加&quot;$&quot;符号
+            注意二：变量名和等号不能够有空格（和我们的一般语言不一样）
+            注意三：变量名首字母必需是字母+下划线（a-z、A-Z）
+            注意四：变量名中间不允许有空格    
+            注意五：不允许使用标点符号
+            …细节
+        3.2 只读变量
+            关键字：readonly（只读，不能够修改）
+            脚本代码
+                name=&quot;HelloApp&quot;
+                readonly name
+                #./hello.sh: line 35: name: readonly variable
+                name=&quot;smile2017&quot;
+                echo &quot;执行了&quot;
+
+        3.3 删除变量？
+            语法：unset（干掉了）
+            案例：unset 变量名
+
+        3.4 变量类型
+            3.4.1 类型一：本地变量
+                作用域整个bash进程可以使用
+                语法：name=&quot;Dream&quot;
+            3.4.2 类型二：局部变量
+                作用域：当前代码段（修饰符：local）
+                local name=&quot;Andy&quot;
+            3.4.3 类型三：环境变量
+                作用域：当前shell进程以及子进程
+                语法：export name=&quot;Dream&quot;
+            3.4.4 类型四：位置变量
+                脚本代码
+                    #!/bin/bash
+                    name=${0}
+                    age=${1}
+                    sex=${2}
+                    echo &quot;姓名：${name}   年龄：${age}  性别：${sex} &quot;
+                执行脚本
+                    ./hello.sh Jeff 150 男
+                执行结果        
+                    ${0}表示脚本文件名称
+                    参数从1开始
+            3.4.5 特殊变量
+                3.4.5.1 ${0}-&gt;特殊变量-&gt;文件名称
+                3.4.5.2 ${?}-&gt;表示返回上一个命令执行状态返回值
+                    0：表示执行成功
+                    1：程序执行结果
+                    2：表示程序状态返回码（0-255）
+                        系统预留错误（1、2、127）
+                    案例测试
+                        #!/bin/bash
+                        echo ${0}
+                        echo ${?}
+
+                3.4.5.3 $#-&gt;参数个数
+
+                3.4.5.4 $*-&gt;参数列表
+
+                3.4.5.5 $@-&gt;参数列表
+
+                3.4.5.6 $$-&gt;后去当前shell进行ID
+
+                3.4.5.7 $!-&gt;执行上一个指令PID
+
+                3.4.5.8 ${*}和${@}区别？
+                    脚本代码
+                        #!/bin/bash
+                        echo ${*}
+                        echo ${@}
+                    执行脚本
+                        ./hello.sh Andy 200 男 
+                    脚本结果
+                        ${*}-&gt;参数列表：将所有的参数组成一个字符串-&gt;&quot;Andy 200 男&quot;
+                        ${@}-&gt;参数列表：分开的-&gt;&quot;Andy&quot; 200 &quot;男&quot;
+
+    4、Shell脚本语言-&gt;字符串？         4.1 字符串-&gt;单引号
+            脚本代码
+                #!/bin/bash
+                name=&apos;Andy&apos;
+                echo ${name}
+
+
+            脚本结果：Andy
+
+        4.2 字符串-&gt;双引号
+            脚本代码
+                #!/bin/bash
+                name=&quot;Andy&quot;
+                echo ${name}
+
+
+            脚本结果：Andy
+
+        4.3 字符串-&gt;拼接
+            方式一：
+                脚本代码
+                    #!/bin/bash
+                    name=&quot;Andy&quot;
+                    age=100
+                    sex=&quot;男&quot;
+                    info=&quot;${name} ${age} ${sex}&quot;
+                    echo ${info}
+
+
+                脚本结果：&quot;Andy 100 男&quot;
+            方式二
+                脚本代码
+                    #!/bin/bash
+                    name=&quot;Andy&quot;
+                    age=100
+                    sex=&quot;男&quot;
+                    info=&quot; 姓名：&quot;${name}&quot;   年龄：&quot;${age}&quot;  性别：&quot;${sex}&quot;  &quot;
+                    echo ${info}
+
+
+                脚本结果：&quot;姓名：Andy 年龄：100 性别：男&quot;
+
+        4.4 字符串-&gt;获取字符串长度
+            语法结构：${#变量名}
+            脚本代码
+                #!/bin/bash
+                name=&quot;Andy&quot;
+                echo ${#name}
+            脚本结果：4
+
+        4.5 字符串-&gt;截取
+            语法：${变量名:开始位置:截取长度}
+            脚本代码
+                    #!/bin/bash
+                    name=&quot;I have a Dream&quot;
+            案例一：从字符串第3个开始截取，截取3个
+                name=&quot;I have a Dream&quot;
+                result=${name:2:3}
+                echo ${result}
+            案例二：从字符串第5个开始截取，到最后一个结束
+                方式一
+                    name=&quot;I have a Dream&quot;
+                    length=${#name}
+                    result=${name:5:length-1}
+                    echo ${result}
+                方式二
+                    name=&quot;I have a Dream&quot;
+                    result=${name:5}
+                    echo ${result}
+        4.6 字符串-&gt;删除
+            语法一：${变量名#删除字符串 正则表达式}
+                作用：从字符串开头（左边）开始匹配要删除字符串
+                案例一：
+                    name=&quot;I have a Dream&quot;
+                    result=${name#Dream}
+                    echo ${result}
+                    原因：匹配不到
+                案例二：            
+                    name=&quot;I have a Dream&quot;
+                    result=${name#I}
+                    echo ${result}
+                案例三：查找指定字符第一个，并且删除前面所有的字符（包含自己）
+                    name=&quot;I have a Dream&quot;
+                    result=${name#*D}
+                    echo ${result}
+
+                案例四：指定删除范围
+                    name=&quot;I have a Dream&quot;
+                    result=${name#h*D}
+                    echo ${result}
+
+            语法二：${变量名##删除字符串 正则表达式}
+                作用：从字符串结尾（右边）开始匹配要删除字符串
+                案例一
+                    name=&quot;I have a Dream&quot;
+                    result=${name##*a}
+                    echo ${result}
+                总结：语法一和语法二，都是从左边删除到右边，查找方向不一样
+
+            语法三：${变量名%删除字符串 正则表达式}
+                从字符串结尾开始匹配，删除匹配的字符串
+                案例一：查找第一个字符（匹配第一个）
+                    代码一：
+                        name=&quot;I have a Dream&quot;
+                        result=${name%a}
+                        echo ${result}
+                    代码二：
+                        name=&quot;I have a Dream&quot;
+                        result=${name%m}
+                        echo ${result}
+
+                案例二：查找指定字符第一个，并且删除前面所有字符（包含自己）
+                    name=&quot;I have a Dream&quot;
+                    result=${name%h*}
+                    echo ${result}
+
+                案例三：指定删除范围
+                    name=&quot;I have a Dream&quot;
+                    result=${name%a*D}
+                    echo ${result}
+
+            语法四：${变量名%%删除字符串 正则表达式}
+                案例一：查找指定字符最后一个，并且删除前面所有的字符（包含自己）
+                    name=&quot;I have a Dream&quot;
+                    result=${name%%a*}
+                    echo ${result}
+
+            总结：
+                从左边删除到右边
+                    #-&gt;表示查询方向从左到右
+                    ##-&gt;表示查询方向从右到左
+                从右边删除到左边
+                    %-&gt;表示查询方向从右到左
+                    %%-&gt;表示查询方向从左到右
+
+
+
+    作业一：删除中间字符串如何实现？
+    作业二：获取文件名称和获取文件路径？
+        path=&quot;/Users/yangshaohong/Desktop/hello.sh&quot;</code></pre>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/03/29/%E3%80%90%E9%9F%B3%E8%A7%86%E9%A2%91%E3%80%91Shell%E8%84%9A%E6%9C%AC%E8%AF%AD%E8%A8%8001/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+      
+      
+          
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/26/%E3%80%90iOS%E3%80%91%E9%98%BF%E9%87%8C%E3%80%81%E5%AD%97%E8%8A%82%EF%BC%9A%E4%B8%80%E5%A5%97%E9%AB%98%E6%95%88%E7%9A%84iOS%E9%9D%A2%E8%AF%95%E9%A2%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="张博文">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="张博文的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/12/26/%E3%80%90iOS%E3%80%91%E9%98%BF%E9%87%8C%E3%80%81%E5%AD%97%E8%8A%82%EF%BC%9A%E4%B8%80%E5%A5%97%E9%AB%98%E6%95%88%E7%9A%84iOS%E9%9D%A2%E8%AF%95%E9%A2%98/" class="post-title-link" itemprop="url">【iOS】阿里、字节：一套高效的iOS面试题</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-12-26 06:00:00" itemprop="dateCreated datePublished" datetime="2019-12-26T06:00:00+08:00">2019-12-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-04-05 11:23:47" itemprop="dateModified" datetime="2020-04-05T11:23:47+08:00">2020-04-05</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index"><span itemprop="name">iOS</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/%E9%9D%A2%E8%AF%95%E9%A2%98/" itemprop="url" rel="index"><span itemprop="name">面试题</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>由于问题量太大，本文只是给了问题，希望发挥圈友的动手能力，自己去探索下，也可以在下方进行评论回复你的答案或者提出更高质量的问题！！！</p>
+<h2 id="runtime相关问题"><a href="#runtime相关问题" class="headerlink" title="runtime相关问题"></a>runtime相关问题</h2><p>runtime是iOS开发最核心的知识了，如果下面的问题都解决了，那么对runtime的理解已经很深了。 runtime已经开源了，这有一份别人调试好可运行的源码objc-runtime，也可以去官网找objc4</p>
+<h2 id="结构模型"><a href="#结构模型" class="headerlink" title="结构模型"></a>结构模型</h2><ol>
+<li>介绍下runtime的内存模型（isa、对象、类、metaclass、结构体的存储信息等）</li>
+<li>为什么要设计metaclass</li>
+<li>class_copyIvarList &amp; class_copyPropertyList区别</li>
+<li>class_rw_t 和 class_ro_t 的区别</li>
+<li>category如何被加载的,两个category的load方法的加载顺序，两个category的同名方法的加载顺序</li>
+<li>category &amp; extension区别，能给NSObject添加Extension吗，结果如何</li>
+<li>消息转发机制，消息转发机制和其他语言的消息机制优劣对比</li>
+<li>在方法调用的时候，方法查询-&gt; 动态解析-&gt; 消息转发 之前做了什么</li>
+<li>IMP、SEL、Method的区别和使用场景</li>
+<li>load、initialize方法的区别什么？在继承关系中他们有什么区别</li>
+<li>说说消息转发机制的优劣</li>
+</ol>
+<h2 id="内存管理"><a href="#内存管理" class="headerlink" title="内存管理"></a>内存管理</h2><ol>
+<li>weak的实现原理？SideTable的结构是什么样的</li>
+<li>关联对象的应用？系统如何实现关联对象的</li>
+<li>关联对象的如何进行内存管理的？关联对象如何实现weak属性</li>
+<li>Autoreleasepool的原理？所使用的的数据结构是什么</li>
+<li>ARC的实现原理？ARC下对retain &amp; release做了哪些优化</li>
+<li>ARC下哪些情况会造成内存泄漏</li>
+</ol>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ol>
+<li>Method Swizzle注意事项</li>
+<li>属性修饰符atomic的内部实现是怎么样的?能保证线程安全吗</li>
+<li>iOS 中内省的几个方法有哪些？内部实现原理是什么</li>
+<li>class、objc_getClass、object_getclass 方法有什么区别?</li>
+</ol>
+<h2 id="NSNotification相关"><a href="#NSNotification相关" class="headerlink" title="NSNotification相关"></a>NSNotification相关</h2>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/12/26/%E3%80%90iOS%E3%80%91%E9%98%BF%E9%87%8C%E3%80%81%E5%AD%97%E8%8A%82%EF%BC%9A%E4%B8%80%E5%A5%97%E9%AB%98%E6%95%88%E7%9A%84iOS%E9%9D%A2%E8%AF%95%E9%A2%98/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+      
           
   
   
@@ -455,527 +937,6 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/05/26/%E3%80%90iOS%E3%80%91%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%8D%98%E4%BE%8B%E6%A8%A1%E5%BC%8F/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="张博文">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="张博文的博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2016/05/26/%E3%80%90iOS%E3%80%91%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%8D%98%E4%BE%8B%E6%A8%A1%E5%BC%8F/" class="post-title-link" itemprop="url">【iOS】iOS设计模式 - 単例模式</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2016-05-26 06:00:00" itemprop="dateCreated datePublished" datetime="2016-05-26T06:00:00+08:00">2016-05-26</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-03-30 20:20:35" itemprop="dateModified" datetime="2020-03-30T20:20:35+08:00">2020-03-30</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/iOS/" itemprop="url" rel="index"><span itemprop="name">iOS</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/iOS/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" itemprop="url" rel="index"><span itemprop="name">设计模式</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="単例的书写各式"><a href="#単例的书写各式" class="headerlink" title="単例的书写各式"></a>単例的书写各式</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">+ (id)sharedInstance</span><br><span class="line">&#123;</span><br><span class="line">    &#x2F;&#x2F; 静态局部变量</span><br><span class="line">    static Mooc *instance &#x3D; nil;</span><br><span class="line">    </span><br><span class="line">    &#x2F;&#x2F; 通过dispatch_once方式 确保instance在多线程环境下只被创建一次</span><br><span class="line">    static dispatch_once_t onceToken;</span><br><span class="line">    dispatch_once(&amp;onceToken, ^&#123;</span><br><span class="line">        &#x2F;&#x2F; 创建实例</span><br><span class="line">        instance &#x3D; [[super allocWithZone:NULL] init];</span><br><span class="line">    &#125;);</span><br><span class="line">    return instance;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 重写方法【必不可少】</span><br><span class="line">+ (id)allocWithZone:(struct _NSZone *)zone&#123;</span><br><span class="line">    return [self sharedInstance];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 重写方法【必不可少】</span><br><span class="line">- (id)copyWithZone:(nullable NSZone *)zone&#123;</span><br><span class="line">    return self;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2016/05/26/%E3%80%90iOS%E3%80%91%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%8D%98%E4%BE%8B%E6%A8%A1%E5%BC%8F/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-      
-          
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/05/26/%E3%80%90iOS%E9%9D%A2%E8%AF%95%E3%80%91%E9%9D%A2%E8%AF%95%E9%A2%9802/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="张博文">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="张博文的博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2016/05/26/%E3%80%90iOS%E9%9D%A2%E8%AF%95%E3%80%91%E9%9D%A2%E8%AF%95%E9%A2%9802/" class="post-title-link" itemprop="url">【iOS面试】面试题（阿里-P6一面-参考思路）</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2016-05-26 06:00:00" itemprop="dateCreated datePublished" datetime="2016-05-26T06:00:00+08:00">2016-05-26</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-03-31 22:11:40" itemprop="dateModified" datetime="2020-03-31T22:11:40+08:00">2020-03-31</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/iOS/" itemprop="url" rel="index"><span itemprop="name">iOS</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/iOS/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" itemprop="url" rel="index"><span itemprop="name">性能优化</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <ul>
-<li></li>
-<li>1、说一下OC的反射机制；</li>
-<li>2、block的实质是什么？有几种block？分别是怎样产生的？</li>
-<li>3、__block修饰的变量为什么能在block里面能改变其值？</li>
-<li>4、说一下线程之间的通信。</li>
-<li>5、你们应用的崩溃率是多少？</li>
-<li>6、说一下hash算法。</li>
-<li>7、NSDictionary的实现原理是什么？</li>
-<li>8、你们的App是如何处理本地数据安全的（比如用户名的密码）？</li>
-<li>9、遇到过BAD_ACCESS的错误吗？你是怎样调试的？</li>
-<li>10、什么是指针常量和常量指针？</li>
-<li>11、不借用第三个变量，如何交换两个变量的值？要求手动写出交换过程。</li>
-<li>12、若你去设计一个通知中心，你会怎样设计？</li>
-<li>13、如何去设计一个方案去应对后端频繁更改的字段接口？</li>
-<li>14、KVO、KVC的实现原理</li>
-<li>15、用递归算法求1到n的和</li>
-<li>16、category为什么不能添加属性？</li>
-<li>17、说一下runloop和线程的关系。</li>
-<li>18、说一下autoreleasePool的实现原理。</li>
-<li>19、说一下简单工厂模式，工厂模式以及抽象工厂模式？</li>
-<li>20、如何设计一个网络请求库？</li>
-<li>21、说一下多线程，你平常是怎么用的？</li>
-<li>22、说一下UITableViewCell的卡顿你是怎么优化的？</li>
-<li>23、看过哪些三方库？说一下实现原理以及好在哪里？</li>
-<li>24、说一下HTTP协议以及经常使用的code码的含义。</li>
-<li>25、设计一套缓存策略。</li>
-<li>26、设计一个检测主线和卡顿的方案。</li>
-<li>27、说一下runtime，工作是如何使用的？看过runtime源码吗？</li>
-<li>28、说几个你在工作中使用到的线程安全的例子。</li>
-<li>29、用过哪些锁？哪些锁的性能比较高？</li>
-<li>30、说一下HTTP和HTTPs的请求过程？</li>
-<li>31、说一下TCP和UDP</li>
-<li>32、说一下静态库和动态库之间的区别</li>
-<li>33、load和initialize方法分别在什么时候调用的？</li>
-<li>34、NSNotificationCenter是在哪个线程发送的通知？</li>
-<li>35、用过swift吗？如果没有，平常有学习吗？</li>
-<li>36、说一下你对架构的理解？</li>
-<li>37、为什么一定要在主线程里面更新UI？</li>
-</ul>
-<p><a href="https://www.jianshu.com/p/980eb40d1b21" target="_blank" rel="noopener">我的iOS面试经历（附面试题干货）</a></p>
-
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2016/05/26/%E3%80%90iOS%E9%9D%A2%E8%AF%95%E3%80%91%E9%9D%A2%E8%AF%95%E9%A2%9802/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-      
-          
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/05/26/%E3%80%90iOS%E3%80%91%E9%9D%A2%E8%AF%95%E9%A2%98%E6%B1%87%E6%80%BB/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="张博文">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="张博文的博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2016/05/26/%E3%80%90iOS%E3%80%91%E9%9D%A2%E8%AF%95%E9%A2%98%E6%B1%87%E6%80%BB/" class="post-title-link" itemprop="url">【iOS】iOS面试题</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2016-05-26 06:00:00" itemprop="dateCreated datePublished" datetime="2016-05-26T06:00:00+08:00">2016-05-26</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-03-29 19:03:12" itemprop="dateModified" datetime="2020-03-29T19:03:12+08:00">2020-03-29</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/iOS/" itemprop="url" rel="index"><span itemprop="name">iOS</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/iOS/%E9%9D%A2%E8%AF%95%E9%A2%98/" itemprop="url" rel="index"><span itemprop="name">面试题</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="1-如何高效的切圆角？"><a href="#1-如何高效的切圆角？" class="headerlink" title="1.如何高效的切圆角？"></a>1.如何高效的切圆角？</h3><pre><code>切圆角共有三种方案：
-- CornerRadius + MasksToBounds：适用于单个视图或视图不在列表上且量级较小的情况，会触发离屏渲染
-- CAShapeLayer + UIBezierPath：会触发离屏渲染，性能消耗严重，不推荐使用
-- Core Graphics：推荐使用（不会触发离屏渲染）</code></pre><h3 id="2-什么是隐式动画和显示动画？"><a href="#2-什么是隐式动画和显示动画？" class="headerlink" title="2.什么是隐式动画和显示动画？"></a>2.什么是隐式动画和显示动画？</h3><pre><code>- 隐式动画指的是改变属性值而产生的默认的过度动画（如backgound、cornerRadius等），不需要初始化任何类，系统自己处理动画属性；
-- 显示动画是指自己创建一个动画对象并附加到layer上，如 CAAnimation、CABasicAnimation、CAKeyframeAnimation。</code></pre><h3 id="3-UIView-和-CALayer-的区别？"><a href="#3-UIView-和-CALayer-的区别？" class="headerlink" title="3.UIView 和 CALayer 的区别？"></a>3.UIView 和 CALayer 的区别？</h3><pre><code>- UIView 是负责事件的传递，参与视图响应链
-- CALayer 负责视图的显示功能</code></pre><h3 id="4-离屏渲染？"><a href="#4-离屏渲染？" class="headerlink" title="4.离屏渲染？"></a>4.离屏渲染？</h3><h3 id="5-Objective-C-是否支持方法重载（overloading）？"><a href="#5-Objective-C-是否支持方法重载（overloading）？" class="headerlink" title="5.Objective-C 是否支持方法重载（overloading）？"></a>5.Objective-C 是否支持方法重载（overloading）？</h3><pre><code>- 不支持。方法重载（overloading）：允许创建多项名称相同但输入输出类型或个数不同的方法。</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 这两个方法名字是不一样的，虽然都是writeToFile开头</span><br><span class="line">-(void) writeToFile:(NSString *)path fromInt:(int)anInt;</span><br><span class="line">-(void) writeToFile:(NSString *)path fromString:(NSString *)aString;</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2016/05/26/%E3%80%90iOS%E3%80%91%E9%9D%A2%E8%AF%95%E9%A2%98%E6%B1%87%E6%80%BB/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-      
-          
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/05/26/%E3%80%90iOS%E3%80%91%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E9%9D%A2%E8%AF%95%E9%A2%98%EF%BC%88%E5%A6%82%E4%BD%95%E4%BC%98%E5%8C%96APP%E7%9A%84%E7%94%B5%E9%87%8F%EF%BC%89/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="张博文">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="张博文的博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2016/05/26/%E3%80%90iOS%E3%80%91%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E9%9D%A2%E8%AF%95%E9%A2%98%EF%BC%88%E5%A6%82%E4%BD%95%E4%BC%98%E5%8C%96APP%E7%9A%84%E7%94%B5%E9%87%8F%EF%BC%89/" class="post-title-link" itemprop="url">【iOS】iOS性能优化（如何优化APP的电量）</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2016-05-26 06:00:00" itemprop="dateCreated datePublished" datetime="2016-05-26T06:00:00+08:00">2016-05-26</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-03-29 19:15:51" itemprop="dateModified" datetime="2020-03-29T19:15:51+08:00">2020-03-29</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/iOS/" itemprop="url" rel="index"><span itemprop="name">iOS</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/iOS/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" itemprop="url" rel="index"><span itemprop="name">性能优化</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="如何优化App的电量？"><a href="#如何优化App的电量？" class="headerlink" title="如何优化App的电量？"></a>如何优化App的电量？</h1><h2 id="程序的耗电方面主要在一下四个方面："><a href="#程序的耗电方面主要在一下四个方面：" class="headerlink" title="程序的耗电方面主要在一下四个方面："></a>程序的耗电方面主要在一下四个方面：</h2><ul>
-<li>Cpu处理</li>
-<li>定位</li>
-<li>网络</li>
-<li>图像</li>
-</ul>
-<h2 id="优化的途径主要提现在以下的几个方面："><a href="#优化的途径主要提现在以下的几个方面：" class="headerlink" title="优化的途径主要提现在以下的几个方面："></a>优化的途径主要提现在以下的几个方面：</h2><ul>
-<li>尽量降低CPU、GPU的消耗</li>
-<li>尽量少用定时器</li>
-<li>优化I/O操作<ul>
-<li>不要频繁写入小数据，而是等到积攒一定的数量再写入</li>
-<li>读写大量的数据可以使用 Dispatch_io, GCD内部已经做了优化。</li>
-<li>数据量比较大时，建议使用数据库</li>
-</ul>
-</li>
-<li>网络方面的优化<ul>
-<li>减少压缩网络数据（XML-&gt; JSON -&gt; ProtoBuf）,如果可能建议使用ProtoBuf</li>
-<li>如果请求的返回数据相同，可以使用 NSCache 进行缓存</li>
-<li>使用断点续传，避免因网络失败后要重新下载</li>
-<li>网络不可用的时候，不要尝试进行网络请求</li>
-<li>长时间的网络请求，要提供可以取消的操作</li>
-<li>采取批量传输。下载视频流的时候，尽量一大块一大块的进行下载，广告可以一次下载多个</li>
-</ul>
-</li>
-<li>定位层面的优化<ul>
-<li>如果只是需要快速确定用户位置，最好用 CLLocationManager 的 requestLocation 方法，定位完成后，会自动让定位硬件断电</li>
-<li>如果不是导航应用，尽量不要实时更新位置，定位完毕就关掉定位服务</li>
-<li>尽量降低定位精度，比如尽量不要使用精度最高的 kCLLocationAccuracyBest</li>
-<li>需要后台定位时，尽量设置 pausesLocationUpdatesAutomatically 为 YES，如果用户不太可能移动的时候，系统会自动暂停位置更新</li>
-<li>尽量不要使用 startMonitoringSignificantLocationChanges，有限考虑 startMonitoringForRegion</li>
-</ul>
-</li>
-<li>硬件检测优化<ul>
-<li>用户移动、摇晃、倾斜设备时，会产生动作（motion）事件，这些时间由加速计 、陀螺仪，磁力计等硬件检测。在不需要检测的场合，应该及时关闭这些硬件。</li>
-</ul>
-</li>
-</ul>
-<p>文章参考：<a href="https://www.jianshu.com/p/e270ad11e25a" target="_blank" rel="noopener">iOS 性能优化面试题（如何优化 <code>APP</code> 的电量？）</a></p>
-
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2016/05/26/%E3%80%90iOS%E3%80%91%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E9%9D%A2%E8%AF%95%E9%A2%98%EF%BC%88%E5%A6%82%E4%BD%95%E4%BC%98%E5%8C%96APP%E7%9A%84%E7%94%B5%E9%87%8F%EF%BC%89/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-      
-          
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/05/26/%E3%80%90iOS%E3%80%91%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="张博文">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="张博文的博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2016/05/26/%E3%80%90iOS%E3%80%91%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" class="post-title-link" itemprop="url">【iOS】iOS性能优化</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2016-05-26 06:00:00" itemprop="dateCreated datePublished" datetime="2016-05-26T06:00:00+08:00">2016-05-26</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-03-29 19:14:04" itemprop="dateModified" datetime="2020-03-29T19:14:04+08:00">2020-03-29</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/iOS/" itemprop="url" rel="index"><span itemprop="name">iOS</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/iOS/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" itemprop="url" rel="index"><span itemprop="name">性能优化</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><p><a href="https://www.jianshu.com/p/fb9ab792d94d" target="_blank" rel="noopener">iOS性能优化</a><br><a href="https://www.jianshu.com/p/0c135d5b9840" target="_blank" rel="noopener">iOS中性能优化有哪些？</a><br><a href="https://www.jianshu.com/p/45f0fc516ce6" target="_blank" rel="noopener">2019年iOS面试题</a><br><a href="http://www.cocoachina.com/articles/21362" target="_blank" rel="noopener">iOS面试题：阿里-P6一面-参考思路</a><br><a href="https://www.cnblogs.com/Julday/p/12491674.html" target="_blank" rel="noopener">阿里、字节：一套高效的iOS面试题</a><br><a href="https://www.jianshu.com/p/c6469ecb3828" target="_blank" rel="noopener">iOS 性能优化面试题</a><br><a href="https://www.jianshu.com/p/0d4d8a79fd97" target="_blank" rel="noopener">备战2020：那些 iOS开发 常用的底层面试题合集</a></p>
-<p><a href="https://www.jianshu.com/u/0ac1433a3074" target="_blank" rel="noopener">全网iOS面试题总结</a><br><a href="https://blog.csdn.net/u012094456/article/details/102957681" target="_blank" rel="noopener">iOS 性能优化面试题（如何高性能的画一个圆角？）</a><br><a href="https://blog.51cto.com/14121524/2412956" target="_blank" rel="noopener">2019 iOS面试题总结，更新性能优化方面（题目及答案已上传Github</a></p>
-
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2016/05/26/%E3%80%90iOS%E3%80%91%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-      
-          
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/05/26/%E3%80%90iOS%E9%9D%A2%E8%AF%95%E3%80%91%E9%9D%A2%E8%AF%95%E9%A2%9801/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1136,7 +1097,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">23</span>
+          <span class="site-state-item-count">28</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
