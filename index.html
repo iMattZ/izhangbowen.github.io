@@ -306,65 +306,6 @@
       
       
       
-          
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/04/%E3%80%90iOS%E3%80%91Socket%2000%20-%20socket%E5%88%9D%E6%8E%A201/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="张博文">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="张博文的博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/04/04/%E3%80%90iOS%E3%80%91Socket%2000%20-%20socket%E5%88%9D%E6%8E%A201/" class="post-title-link" itemprop="url">【iOS】Socket 00 - socket初探01</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-04-04 19:06:20" itemprop="dateCreated datePublished" datetime="2020-04-04T19:06:20+08:00">2020-04-04</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-      
       
       
           
@@ -459,105 +400,6 @@
 
       
       
-          
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/02/%E3%80%90iOS%E3%80%91Socket%2001%20-%20socket%E5%88%9D%E6%8E%A2/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="张博文">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="张博文的博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/04/02/%E3%80%90iOS%E3%80%91Socket%2001%20-%20socket%E5%88%9D%E6%8E%A2/" class="post-title-link" itemprop="url">【iOS】Socket初探</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-04-02 06:00:00" itemprop="dateCreated datePublished" datetime="2020-04-02T06:00:00+08:00">2020-04-02</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-04-04 19:05:21" itemprop="dateModified" datetime="2020-04-04T19:05:21+08:00">2020-04-04</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/iOS/" itemprop="url" rel="index"><span itemprop="name">iOS</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/iOS/%E7%BD%91%E7%BB%9C/" itemprop="url" rel="index"><span itemprop="name">网络</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/iOS/%E7%BD%91%E7%BB%9C/Socket/" itemprop="url" rel="index"><span itemprop="name">Socket</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="一、什么是Socket？"><a href="#一、什么是Socket？" class="headerlink" title="一、什么是Socket？"></a>一、什么是Socket？</h1><p>Socket是通信的基石，是支持TCP/IP协议的网络通信的基本操作单元，包含进行网络通信必须的五种信息：连接使用的协议，本地主机的IP地址，本地进程的协议端口，远地主机的IP地址，远地进程的协议端口。</p>
-<h1 id="二、Socket的C-S端"><a href="#二、Socket的C-S端" class="headerlink" title="二、Socket的C/S端"></a>二、Socket的C/S端</h1><p>Socket的使用是非常的简单，本身底层是使用C语言进行编写的，具体的实现过程，稍后会有具体的实现过程；<br>在建立Scoket通信的时候，是区分Client Socket和 Service Socket，可就是我们说的服务端以及客户端，他们具体的功能我们可以通过一幅图了解：<br><img src="http://q89doflpv.bkt.clouddn.com/2744128-cfc1dfd322013e79.png" alt="socket连接过程"><br>Socket 本身是支持TCP和UDP两种协议的：<br>当Socket使用TCP协议通信时，Socket就是TCP的连接；<br>当Socket使用UDP协议通信，Socket就是UDP连接</p>
-<h1 id="三、网络的协议"><a href="#三、网络的协议" class="headerlink" title="三、网络的协议"></a>三、网络的协议</h1><p>这里先讲解一下网络里面的到底都有啥，首先先了解一下网络里面的七层协议：</p>
-<p>从上往下分布：<br>    - 应用层<br>    - 表达层<br>    - 会话层<br>    - 传输层<br>    - 网络层<br>    - 数据链路层<br>    - 物理层</p>
-<p>通常情况下底下三层（网络层、数据链路层、物理层）统称为媒体层，一般是由专门搞网络的网络工程师负责研究的对象。</p>
-<p>而上面四层（应用层、表达层、会话层、传输层）被称为主机层，iOS开发网络传输最关心的部分。</p>
-<ul>
-<li>HTTP协议：位于应用层</li>
-<li>TCP/UDP协议：位于传输层</li>
-<li>IP协议：位于网络层</li>
-</ul>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/04/02/%E3%80%90iOS%E3%80%91Socket%2001%20-%20socket%E5%88%9D%E6%8E%A2/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
       
       
   </div>
@@ -630,20 +472,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">28</span>
+          <span class="site-state-item-count">23</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-count">13</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-count">9</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
