@@ -129,11 +129,6 @@
     <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
 
   </li>
-        <li class="menu-item menu-item-languages">
-
-    <a href="/categories/" rel="section"><i class="fa fa-fw fa-languages"></i>languages</a>
-
-  </li>
   </ul>
 </nav>
 
@@ -159,6 +154,100 @@
             
 
   <div class="posts-expand">
+      
+          
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/02/%E3%80%90iOS%E3%80%91%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%9602/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="张博文">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="张博文的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/04/02/%E3%80%90iOS%E3%80%91%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%9602/" class="post-title-link" itemprop="url">【iOS】iOS性能优化的一点看法</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-04-02 06:00:00" itemprop="dateCreated datePublished" datetime="2020-04-02T06:00:00+08:00">2020-04-02</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-04-03 20:05:21" itemprop="dateModified" datetime="2020-04-03T20:05:21+08:00">2020-04-03</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index"><span itemprop="name">iOS</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" itemprop="url" rel="index"><span itemprop="name">性能优化</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>在我们通常的开发工作中，每次需求定下来的时候，开发时间都是很紧张的，于是我们就抓紧时间开发，完成需求。在匆忙开发的过程中，或多或少的会有一些性能问题存在，在开发任务完成以后，我们都要进行性能优化。现将我在开发过程中的性能优化问题分享如下。</p>
+<h1 id="一、数据压缩"><a href="#一、数据压缩" class="headerlink" title="一、数据压缩"></a>一、数据压缩</h1><p>在程序的运行过程中，数据的传输也是影响程序性能的一个方面。在传输速度不变的情况下，数据量大，传输需要的时间就多，数据量小，传输需要的时间自然就少。传入需要的时间少，我们的程序的响应速度自然就变快了。</p>
+<h2 id="1-对网络传输的数据进行压缩"><a href="#1-对网络传输的数据进行压缩" class="headerlink" title="1.对网络传输的数据进行压缩"></a>1.对网络传输的数据进行压缩</h2><p>这一步需要和服务端配合，服务端需要开启数据压缩的配置。而对于移动端来说，网上开源的AFNetWorking框架已经帮我们实现了这个功能，我们只要在我们定义的网络请求基类中开启这个功能就可以了。<br>代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;**</span><br><span class="line"> *  请求数据开启gzip压缩</span><br><span class="line"> *&#x2F;</span><br><span class="line">[self.sessionManager.requestSerializer setValue:@&quot;gzip&quot; forHTTPHeaderField:@&quot;Accept-Encoding&quot;];</span><br></pre></td></tr></table></figure>
+<h2 id="2-对下载的图片进行数据压缩"><a href="#2-对下载的图片进行数据压缩" class="headerlink" title="2. 对下载的图片进行数据压缩"></a>2. 对下载的图片进行数据压缩</h2><p>这一步对程序性能的提升效果很明显。我之前在的公司的App是做拍卖的，照片拍的很精细，有的一张图片好几M，下载到App，图片已解析，直接就闪退了。我们进行过追踪，这种大图片下载下来一解析，手机内存直接爆了。所以我们对下载的图片进行了压缩。</p>
+<h3 id="2-1-对图片的尺寸进行压缩"><a href="#2-1-对图片的尺寸进行压缩" class="headerlink" title="2.1 对图片的尺寸进行压缩"></a>2.1 对图片的尺寸进行压缩</h3><p>我们和服务端商量后进行改进。我们请求下载图片的时候，加上图片的尺寸，服务端返回给我们对应大小的图片。<br>客户端的优化方案：根据屏幕的宽度和设计师给定的尺寸，计算出当前手机需要的图片尺寸，然后上尺寸向服务端请求下载图片。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/04/02/%E3%80%90iOS%E3%80%91%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%9602/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+      
+      
       
       
       
@@ -258,92 +347,6 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2019/12/26/%E3%80%90iOS%E3%80%91%E9%98%BF%E9%87%8C%E3%80%81%E5%AD%97%E8%8A%82%EF%BC%9A%E4%B8%80%E5%A5%97%E9%AB%98%E6%95%88%E7%9A%84iOS%E9%9D%A2%E8%AF%95%E9%A2%98/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-      
-          
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/13/%E3%80%90%E5%B7%A5%E5%85%B7%E3%80%91%E7%BB%88%E7%AB%AF%E8%AE%A1%E7%AE%97%E4%BB%A3%E7%A0%81%E8%A1%8C%E6%95%B0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="张博文">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="张博文的博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/07/13/%E3%80%90%E5%B7%A5%E5%85%B7%E3%80%91%E7%BB%88%E7%AB%AF%E8%AE%A1%E7%AE%97%E4%BB%A3%E7%A0%81%E8%A1%8C%E6%95%B0/" class="post-title-link" itemprop="url">【工具】终端计算代码行数</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2019-07-13 20:46:25" itemprop="dateCreated datePublished" datetime="2019-07-13T20:46:25+08:00">2019-07-13</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-04-01 22:35:52" itemprop="dateModified" datetime="2020-04-01T22:35:52+08:00">2020-04-01</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%B7%A5%E5%85%B7/" itemprop="url" rel="index"><span itemprop="name">工具</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>打开终端<br>cd 进入项目根目录（即工程文件所在目录）<br>输入以下命令</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find . &quot;(&quot; -name &quot;*.m&quot; -or -name &quot;*.mm&quot; -or -name &quot;*.cpp&quot; -or -name &quot;*.h&quot; -or -name &quot;*.rss&quot; &quot;)&quot; -print | xargs wc -l</span><br></pre></td></tr></table></figure>
-<p>回车，出结果</p>
-
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2019/07/13/%E3%80%90%E5%B7%A5%E5%85%B7%E3%80%91%E7%BB%88%E7%AB%AF%E8%AE%A1%E7%AE%97%E4%BB%A3%E7%A0%81%E8%A1%8C%E6%95%B0/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -481,6 +484,92 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/13/%E3%80%90%E5%B7%A5%E5%85%B7%E3%80%91%E7%BB%88%E7%AB%AF%E8%AE%A1%E7%AE%97%E4%BB%A3%E7%A0%81%E8%A1%8C%E6%95%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="张博文">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="张博文的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/07/13/%E3%80%90%E5%B7%A5%E5%85%B7%E3%80%91%E7%BB%88%E7%AB%AF%E8%AE%A1%E7%AE%97%E4%BB%A3%E7%A0%81%E8%A1%8C%E6%95%B0/" class="post-title-link" itemprop="url">【工具】终端计算代码行数</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-07-13 20:46:25" itemprop="dateCreated datePublished" datetime="2019-07-13T20:46:25+08:00">2019-07-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-04-01 22:35:52" itemprop="dateModified" datetime="2020-04-01T22:35:52+08:00">2020-04-01</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%B7%A5%E5%85%B7/" itemprop="url" rel="index"><span itemprop="name">工具</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>打开终端<br>cd 进入项目根目录（即工程文件所在目录）<br>输入以下命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find . &quot;(&quot; -name &quot;*.m&quot; -or -name &quot;*.mm&quot; -or -name &quot;*.cpp&quot; -or -name &quot;*.h&quot; -or -name &quot;*.rss&quot; &quot;)&quot; -print | xargs wc -l</span><br></pre></td></tr></table></figure>
+<p>回车，出结果</p>
+
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/07/13/%E3%80%90%E5%B7%A5%E5%85%B7%E3%80%91%E7%BB%88%E7%AB%AF%E8%AE%A1%E7%AE%97%E4%BB%A3%E7%A0%81%E8%A1%8C%E6%95%B0/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+      
+          
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/05/26/%E3%80%90iOS%E9%9D%A2%E8%AF%95%E3%80%91%E9%9D%A2%E8%AF%95%E9%A2%9801/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -571,274 +660,6 @@
   
 
       
-      
-          
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/05/26/%E3%80%90iOS%E3%80%91%E9%9D%A2%E8%AF%95%E9%A2%98%E6%B1%87%E6%80%BB/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="张博文">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="张博文的博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2016/05/26/%E3%80%90iOS%E3%80%91%E9%9D%A2%E8%AF%95%E9%A2%98%E6%B1%87%E6%80%BB/" class="post-title-link" itemprop="url">【iOS】iOS面试题</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2016-05-26 06:00:00" itemprop="dateCreated datePublished" datetime="2016-05-26T06:00:00+08:00">2016-05-26</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-03-29 19:03:12" itemprop="dateModified" datetime="2020-03-29T19:03:12+08:00">2020-03-29</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/iOS/" itemprop="url" rel="index"><span itemprop="name">iOS</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/iOS/%E9%9D%A2%E8%AF%95%E9%A2%98/" itemprop="url" rel="index"><span itemprop="name">面试题</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="1-如何高效的切圆角？"><a href="#1-如何高效的切圆角？" class="headerlink" title="1.如何高效的切圆角？"></a>1.如何高效的切圆角？</h3><pre><code>切圆角共有三种方案：
-- CornerRadius + MasksToBounds：适用于单个视图或视图不在列表上且量级较小的情况，会触发离屏渲染
-- CAShapeLayer + UIBezierPath：会触发离屏渲染，性能消耗严重，不推荐使用
-- Core Graphics：推荐使用（不会触发离屏渲染）</code></pre><h3 id="2-什么是隐式动画和显示动画？"><a href="#2-什么是隐式动画和显示动画？" class="headerlink" title="2.什么是隐式动画和显示动画？"></a>2.什么是隐式动画和显示动画？</h3><pre><code>- 隐式动画指的是改变属性值而产生的默认的过度动画（如backgound、cornerRadius等），不需要初始化任何类，系统自己处理动画属性；
-- 显示动画是指自己创建一个动画对象并附加到layer上，如 CAAnimation、CABasicAnimation、CAKeyframeAnimation。</code></pre><h3 id="3-UIView-和-CALayer-的区别？"><a href="#3-UIView-和-CALayer-的区别？" class="headerlink" title="3.UIView 和 CALayer 的区别？"></a>3.UIView 和 CALayer 的区别？</h3><pre><code>- UIView 是负责事件的传递，参与视图响应链
-- CALayer 负责视图的显示功能</code></pre><h3 id="4-离屏渲染？"><a href="#4-离屏渲染？" class="headerlink" title="4.离屏渲染？"></a>4.离屏渲染？</h3><h3 id="5-Objective-C-是否支持方法重载（overloading）？"><a href="#5-Objective-C-是否支持方法重载（overloading）？" class="headerlink" title="5.Objective-C 是否支持方法重载（overloading）？"></a>5.Objective-C 是否支持方法重载（overloading）？</h3><pre><code>- 不支持。方法重载（overloading）：允许创建多项名称相同但输入输出类型或个数不同的方法。</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 这两个方法名字是不一样的，虽然都是writeToFile开头</span><br><span class="line">-(void) writeToFile:(NSString *)path fromInt:(int)anInt;</span><br><span class="line">-(void) writeToFile:(NSString *)path fromString:(NSString *)aString;</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2016/05/26/%E3%80%90iOS%E3%80%91%E9%9D%A2%E8%AF%95%E9%A2%98%E6%B1%87%E6%80%BB/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-      
-          
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/05/26/%E3%80%90iOS%E3%80%91%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%8D%98%E4%BE%8B%E6%A8%A1%E5%BC%8F/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="张博文">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="张博文的博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2016/05/26/%E3%80%90iOS%E3%80%91%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%8D%98%E4%BE%8B%E6%A8%A1%E5%BC%8F/" class="post-title-link" itemprop="url">【iOS】iOS设计模式 - 単例模式</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2016-05-26 06:00:00" itemprop="dateCreated datePublished" datetime="2016-05-26T06:00:00+08:00">2016-05-26</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-03-30 20:20:35" itemprop="dateModified" datetime="2020-03-30T20:20:35+08:00">2020-03-30</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/iOS/" itemprop="url" rel="index"><span itemprop="name">iOS</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/iOS/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" itemprop="url" rel="index"><span itemprop="name">设计模式</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="単例的书写各式"><a href="#単例的书写各式" class="headerlink" title="単例的书写各式"></a>単例的书写各式</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">+ (id)sharedInstance</span><br><span class="line">&#123;</span><br><span class="line">    &#x2F;&#x2F; 静态局部变量</span><br><span class="line">    static Mooc *instance &#x3D; nil;</span><br><span class="line">    </span><br><span class="line">    &#x2F;&#x2F; 通过dispatch_once方式 确保instance在多线程环境下只被创建一次</span><br><span class="line">    static dispatch_once_t onceToken;</span><br><span class="line">    dispatch_once(&amp;onceToken, ^&#123;</span><br><span class="line">        &#x2F;&#x2F; 创建实例</span><br><span class="line">        instance &#x3D; [[super allocWithZone:NULL] init];</span><br><span class="line">    &#125;);</span><br><span class="line">    return instance;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 重写方法【必不可少】</span><br><span class="line">+ (id)allocWithZone:(struct _NSZone *)zone&#123;</span><br><span class="line">    return [self sharedInstance];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 重写方法【必不可少】</span><br><span class="line">- (id)copyWithZone:(nullable NSZone *)zone&#123;</span><br><span class="line">    return self;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2016/05/26/%E3%80%90iOS%E3%80%91%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%8D%98%E4%BE%8B%E6%A8%A1%E5%BC%8F/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-      
-          
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/05/26/%E3%80%90iOS%E3%80%91%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="张博文">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="张博文的博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2016/05/26/%E3%80%90iOS%E3%80%91%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" class="post-title-link" itemprop="url">【iOS】iOS性能优化</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2016-05-26 06:00:00" itemprop="dateCreated datePublished" datetime="2016-05-26T06:00:00+08:00">2016-05-26</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-03-29 19:14:04" itemprop="dateModified" datetime="2020-03-29T19:14:04+08:00">2020-03-29</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/iOS/" itemprop="url" rel="index"><span itemprop="name">iOS</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/iOS/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" itemprop="url" rel="index"><span itemprop="name">性能优化</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><p><a href="https://www.jianshu.com/p/fb9ab792d94d" target="_blank" rel="noopener">iOS性能优化</a><br><a href="https://www.jianshu.com/p/0c135d5b9840" target="_blank" rel="noopener">iOS中性能优化有哪些？</a><br><a href="https://www.jianshu.com/p/45f0fc516ce6" target="_blank" rel="noopener">2019年iOS面试题</a><br><a href="http://www.cocoachina.com/articles/21362" target="_blank" rel="noopener">iOS面试题：阿里-P6一面-参考思路</a><br><a href="https://www.cnblogs.com/Julday/p/12491674.html" target="_blank" rel="noopener">阿里、字节：一套高效的iOS面试题</a><br><a href="https://www.jianshu.com/p/c6469ecb3828" target="_blank" rel="noopener">iOS 性能优化面试题</a><br><a href="https://www.jianshu.com/p/0d4d8a79fd97" target="_blank" rel="noopener">备战2020：那些 iOS开发 常用的底层面试题合集</a></p>
-<p><a href="https://www.jianshu.com/u/0ac1433a3074" target="_blank" rel="noopener">全网iOS面试题总结</a><br><a href="https://blog.csdn.net/u012094456/article/details/102957681" target="_blank" rel="noopener">iOS 性能优化面试题（如何高性能的画一个圆角？）</a><br><a href="https://blog.51cto.com/14121524/2412956" target="_blank" rel="noopener">2019 iOS面试题总结，更新性能优化方面（题目及答案已上传Github</a></p>
-
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2016/05/26/%E3%80%90iOS%E3%80%91%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
   </div>
 
   
@@ -909,7 +730,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">24</span>
+          <span class="site-state-item-count">27</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
