@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Gemini","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="1.struct和class的区别2.介绍一下观察者模式3.在一个https连接的网站里，输入账号密码点击登录后，到服务器返回这个请求前，中间经历了什么4.在一个app中间有一个button，在你手触摸屏幕点击后，到这个button收到点击事件，中间发生了什么5.UIResponder、UIControl、UIView的关系结构模型1. 介绍下runtime的内存模型（isa、对象、类、metac">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【iOS】iOS面试题01">
+<meta property="og:url" content="http://yoursite.com/2016/05/26/%E3%80%90iOS%E3%80%91%E9%9D%A2%E8%AF%95%E9%A2%98%E6%B1%87%E6%80%BB01/index.html">
+<meta property="og:site_name" content="张博文的博客">
+<meta property="og:description" content="1.struct和class的区别2.介绍一下观察者模式3.在一个https连接的网站里，输入账号密码点击登录后，到服务器返回这个请求前，中间经历了什么4.在一个app中间有一个button，在你手触摸屏幕点击后，到这个button收到点击事件，中间发生了什么5.UIResponder、UIControl、UIView的关系结构模型1. 介绍下runtime的内存模型（isa、对象、类、metac">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2016-05-25T22:00:00.000Z">
+<meta property="article:modified_time" content="2020-04-23T00:56:25.108Z">
+<meta property="article:author" content="张博文">
+<meta property="article:tag" content="iOS面试">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://yoursite.com/2016/05/26/%E3%80%90iOS%E3%80%91%E9%9D%A2%E8%AF%95%E9%A2%98%E6%B1%87%E6%80%BB01/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>【iOS】iOS面试题01 | 张博文的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">张博文的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Stay hungry，stay foolish</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/05/26/%E3%80%90iOS%E3%80%91%E9%9D%A2%E8%AF%95%E9%A2%98%E6%B1%87%E6%80%BB01/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="张博文">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="张博文的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          【iOS】iOS面试题01
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2016-05-26 06:00:00" itemprop="dateCreated datePublished" datetime="2016-05-26T06:00:00+08:00">2016-05-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-04-23 08:56:25" itemprop="dateModified" datetime="2020-04-23T08:56:25+08:00">2020-04-23</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index"><span itemprop="name">iOS</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/%E9%9D%A2%E8%AF%95%E9%A2%98/" itemprop="url" rel="index"><span itemprop="name">面试题</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="1-struct和class的区别"><a href="#1-struct和class的区别" class="headerlink" title="1.struct和class的区别"></a>1.struct和class的区别</h3><h3 id="2-介绍一下观察者模式"><a href="#2-介绍一下观察者模式" class="headerlink" title="2.介绍一下观察者模式"></a>2.介绍一下观察者模式</h3><h3 id="3-在一个https连接的网站里，输入账号密码点击登录后，到服务器返回这个请求前，中间经历了什么"><a href="#3-在一个https连接的网站里，输入账号密码点击登录后，到服务器返回这个请求前，中间经历了什么" class="headerlink" title="3.在一个https连接的网站里，输入账号密码点击登录后，到服务器返回这个请求前，中间经历了什么"></a>3.在一个https连接的网站里，输入账号密码点击登录后，到服务器返回这个请求前，中间经历了什么</h3><h3 id="4-在一个app中间有一个button，在你手触摸屏幕点击后，到这个button收到点击事件，中间发生了什么"><a href="#4-在一个app中间有一个button，在你手触摸屏幕点击后，到这个button收到点击事件，中间发生了什么" class="headerlink" title="4.在一个app中间有一个button，在你手触摸屏幕点击后，到这个button收到点击事件，中间发生了什么"></a>4.在一个app中间有一个button，在你手触摸屏幕点击后，到这个button收到点击事件，中间发生了什么</h3><h3 id="5-UIResponder、UIControl、UIView的关系"><a href="#5-UIResponder、UIControl、UIView的关系" class="headerlink" title="5.UIResponder、UIControl、UIView的关系"></a>5.UIResponder、UIControl、UIView的关系</h3><h1 id="结构模型"><a href="#结构模型" class="headerlink" title="结构模型"></a>结构模型</h1><h3 id="1-介绍下runtime的内存模型（isa、对象、类、metaclass、结构体的存储信息等）"><a href="#1-介绍下runtime的内存模型（isa、对象、类、metaclass、结构体的存储信息等）" class="headerlink" title="1. 介绍下runtime的内存模型（isa、对象、类、metaclass、结构体的存储信息等）"></a>1. 介绍下runtime的内存模型（isa、对象、类、metaclass、结构体的存储信息等）</h3><h3 id="2-为什么要设计metaclass"><a href="#2-为什么要设计metaclass" class="headerlink" title="2. 为什么要设计metaclass"></a>2. 为什么要设计metaclass</h3><h3 id="3-class-copyIvarList-amp-class-copyPropertyList区别"><a href="#3-class-copyIvarList-amp-class-copyPropertyList区别" class="headerlink" title="3. class_copyIvarList &amp; class_copyPropertyList区别"></a>3. class_copyIvarList &amp; class_copyPropertyList区别</h3><p>class_copyIvarList 获取类对象中的所有实例变量信息，从 class_ro_t 中获取</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">Ivar *</span><br><span class="line">class_copyIvarList(Class cls, unsigned int *outCount)</span><br><span class="line">&#123;</span><br><span class="line">    const ivar_list_t *ivars;</span><br><span class="line">    Ivar *result &#x3D; nil;</span><br><span class="line">    unsigned int count &#x3D; 0;</span><br><span class="line"></span><br><span class="line">    if (!cls) &#123;</span><br><span class="line">        if (outCount) *outCount &#x3D; 0;</span><br><span class="line">        return nil;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    mutex_locker_t lock(runtimeLock);</span><br><span class="line"></span><br><span class="line">    assert(cls-&gt;isRealized());</span><br><span class="line"></span><br><span class="line">    if ((ivars &#x3D; cls-&gt;data()-&gt;ro-&gt;ivars)  &amp;&amp;  ivars-&gt;count) &#123;</span><br><span class="line">        result &#x3D; (Ivar *)malloc((ivars-&gt;count+1) * sizeof(Ivar));</span><br><span class="line"></span><br><span class="line">        for (auto&amp; ivar : *ivars) &#123;</span><br><span class="line">            if (!ivar.offset) continue;  &#x2F;&#x2F; anonymous bitfield</span><br><span class="line">            result[count++] &#x3D; &amp;ivar;</span><br><span class="line">        &#125;</span><br><span class="line">        result[count] &#x3D; nil;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    if (outCount) *outCount &#x3D; count;</span><br><span class="line">    return result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>class_copyPropertyList 获取类对象中的属性信息， class_rw_t 的 properties，先后输出了 category / extension/ baseClass 的属性，而且仅输出当前的类的属性信息，而不会向上去找 superClass 中定义的属性</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">objc_property_t *</span><br><span class="line">class_copyPropertyList(Class cls, unsigned int *outCount)</span><br><span class="line">&#123;</span><br><span class="line">    if (!cls) &#123;</span><br><span class="line">        if (outCount) *outCount &#x3D; 0;</span><br><span class="line">        return nil;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    mutex_locker_t lock(runtimeLock);</span><br><span class="line"></span><br><span class="line">    checkIsKnownClass(cls);</span><br><span class="line">    assert(cls-&gt;isRealized());</span><br><span class="line"></span><br><span class="line">    auto rw &#x3D; cls-&gt;data();</span><br><span class="line"></span><br><span class="line">    property_t **result &#x3D; nil;</span><br><span class="line">    unsigned int count &#x3D; rw-&gt;properties.count();</span><br><span class="line">    if (count &gt; 0) &#123;</span><br><span class="line">        result &#x3D; (property_t **)malloc((count + 1) * sizeof(property_t *));</span><br><span class="line"></span><br><span class="line">        count &#x3D; 0;</span><br><span class="line">        for (auto&amp; prop : rw-&gt;properties) &#123;</span><br><span class="line">            result[count++] &#x3D; &amp;prop;</span><br><span class="line">        &#125;</span><br><span class="line">        result[count] &#x3D; nil;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    if (outCount) *outCount &#x3D; count;</span><br><span class="line">    return (objc_property_t *)result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Q1: class_ro_t 中的 baseProperties 呢？</p>
+<p>Q2: class_rw_t 中的 properties 包含了所有属性，那何时注入进去的呢？ 答案见 5.</p>
+<h3 id="4-class-rw-t-和-class-ro-t-的区别"><a href="#4-class-rw-t-和-class-ro-t-的区别" class="headerlink" title="4.class_rw_t 和 class_ro_t 的区别"></a>4.class_rw_t 和 class_ro_t 的区别</h3><p>测试发现，class_rw_t 中的 properties 属性按顺序包含分类/扩展/基类中的属性</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">struct class_ro_t &#123;</span><br><span class="line">    uint32_t flags;</span><br><span class="line">    uint32_t instanceStart;</span><br><span class="line">    uint32_t instanceSize;</span><br><span class="line">#ifdef __LP64__</span><br><span class="line">    uint32_t reserved;</span><br><span class="line">#endif</span><br><span class="line"></span><br><span class="line">    const uint8_t * ivarLayout;</span><br><span class="line"></span><br><span class="line">    const char * name;</span><br><span class="line">    method_list_t * baseMethodList;</span><br><span class="line">    protocol_list_t * baseProtocols;</span><br><span class="line">    const ivar_list_t * ivars;</span><br><span class="line"></span><br><span class="line">    const uint8_t * weakIvarLayout;</span><br><span class="line">    property_list_t *baseProperties;</span><br><span class="line"></span><br><span class="line">    method_list_t *baseMethods() const &#123;</span><br><span class="line">        return baseMethodList;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">struct class_rw_t &#123;</span><br><span class="line">    &#x2F;&#x2F; Be warned that Symbolication knows the layout of this structure.</span><br><span class="line">    uint32_t flags;</span><br><span class="line">    uint32_t version;</span><br><span class="line"></span><br><span class="line">    const class_ro_t *ro;</span><br><span class="line"></span><br><span class="line">    method_array_t methods;</span><br><span class="line">    property_array_t properties;</span><br><span class="line">    protocol_array_t protocols;</span><br><span class="line"></span><br><span class="line">    Class firstSubclass;</span><br><span class="line">    Class nextSiblingClass;</span><br><span class="line"></span><br><span class="line">    char *demangledName;</span><br><span class="line"></span><br><span class="line">#if SUPPORT_INDEXED_ISA</span><br><span class="line">    uint32_t index;</span><br><span class="line">#endif</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-category如何被加载的-两个category的load方法的加载顺序，两个category的同名方法的加载顺序"><a href="#5-category如何被加载的-两个category的load方法的加载顺序，两个category的同名方法的加载顺序" class="headerlink" title="5. category如何被加载的,两个category的load方法的加载顺序，两个category的同名方法的加载顺序"></a>5. category如何被加载的,两个category的load方法的加载顺序，两个category的同名方法的加载顺序</h3><p>… -&gt; realizeClass -&gt; methodizeClass(用于Attach categories)-&gt; attachCategories 关键就是在 methodizeClass 方法实现中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">static void methodizeClass(Class cls)</span><br><span class="line">&#123;</span><br><span class="line">    runtimeLock.assertLocked();</span><br><span class="line"></span><br><span class="line">    bool isMeta &#x3D; cls-&gt;isMetaClass();</span><br><span class="line">    auto rw &#x3D; cls-&gt;data();</span><br><span class="line">    auto ro &#x3D; rw-&gt;ro;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line">        &#x2F;&#x2F; 省略.....</span><br><span class="line">    &#x2F;&#x2F; &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line"></span><br><span class="line">    property_list_t *proplist &#x3D; ro-&gt;baseProperties;</span><br><span class="line">    if (proplist) &#123;</span><br><span class="line">        rw-&gt;properties.attachLists(&amp;proplist, 1);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line">        &#x2F;&#x2F; 省略.....</span><br><span class="line">    &#x2F;&#x2F; &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; Attach categories.</span><br><span class="line">    category_list *cats &#x3D; unattachedCategoriesForClass(cls, true &#x2F;*realizing*&#x2F;);</span><br><span class="line">    attachCategories(cls, cats, false &#x2F;*don&#39;t flush caches*&#x2F;);</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line">        &#x2F;&#x2F; 省略.....</span><br><span class="line">    &#x2F;&#x2F; &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line"></span><br><span class="line">    if (cats) free(cats);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面代码能确定 baseProperties 在前，category 在后，但决定顺序的是 rw-&gt;properties.attachLists 这个方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">property_list_t *proplist &#x3D; ro-&gt;baseProperties;</span><br><span class="line">if (proplist) &#123;</span><br><span class="line">  rw-&gt;properties.attachLists(&amp;proplist, 1);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;&#x2F; category 被附加进去</span><br><span class="line">void attachLists(List* const * addedLists, uint32_t addedCount) &#123;</span><br><span class="line">        if (addedCount &#x3D;&#x3D; 0) return;</span><br><span class="line"></span><br><span class="line">        if (hasArray()) &#123;</span><br><span class="line">            &#x2F;&#x2F; many lists -&gt; many lists</span><br><span class="line">            uint32_t oldCount &#x3D; array()-&gt;count;</span><br><span class="line">            uint32_t newCount &#x3D; oldCount + addedCount;</span><br><span class="line">            setArray((array_t *)realloc(array(), array_t::byteSize(newCount)));</span><br><span class="line">            array()-&gt;count &#x3D; newCount;</span><br><span class="line"></span><br><span class="line">            &#x2F;&#x2F; 将旧内容移动偏移量 addedCount 然后将 addedLists copy 到起始位置</span><br><span class="line">            &#x2F;*</span><br><span class="line">                struct array_t &#123;</span><br><span class="line">                        uint32_t count;</span><br><span class="line">                        List* lists[0];</span><br><span class="line">                        &#125;;</span><br><span class="line">            *&#x2F;</span><br><span class="line">            memmove(array()-&gt;lists + addedCount, array()-&gt;lists, </span><br><span class="line">                    oldCount * sizeof(array()-&gt;lists[0]));</span><br><span class="line">            memcpy(array()-&gt;lists, addedLists, </span><br><span class="line">                   addedCount * sizeof(array()-&gt;lists[0]));</span><br><span class="line">        &#125;</span><br><span class="line">        else if (!list  &amp;&amp;  addedCount &#x3D;&#x3D; 1) &#123;</span><br><span class="line">            &#x2F;&#x2F; 0 lists -&gt; 1 list</span><br><span class="line">            list &#x3D; addedLists[0];</span><br><span class="line">        &#125; </span><br><span class="line">        else &#123;</span><br><span class="line">            &#x2F;&#x2F; 1 list -&gt; many lists</span><br><span class="line">            List* oldList &#x3D; list;</span><br><span class="line">            uint32_t oldCount &#x3D; oldList ? 1 : 0;</span><br><span class="line">            uint32_t newCount &#x3D; oldCount + addedCount;</span><br><span class="line">            setArray((array_t *)malloc(array_t::byteSize(newCount)));</span><br><span class="line">            array()-&gt;count &#x3D; newCount;</span><br><span class="line">            if (oldList) array()-&gt;lists[addedCount] &#x3D; oldList;</span><br><span class="line">            memcpy(array()-&gt;lists, addedLists, </span><br><span class="line">                   addedCount * sizeof(array()-&gt;lists[0]));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>所以 category 的属性总是在前面的，baseClass的属性被往后偏移了<br>2020/03/18 补充下应用程序 image 镜像加载到内存中时， Category 解析的过程，注意下面的 while(i–) 这里倒叙将 category 中的协议 方法 属性添加到了 rw = cls-&gt;data() 中的 methods/properties/protocols 中。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line">static void </span><br><span class="line">attachCategories(Class cls, category_list *cats, bool flush_caches)</span><br><span class="line">&#123;</span><br><span class="line">    if (!cats) return;</span><br><span class="line">    if (PrintReplacedMethods) printReplacements(cls, cats);</span><br><span class="line"></span><br><span class="line">    bool isMeta &#x3D; cls-&gt;isMetaClass();</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; fixme rearrange to remove these intermediate allocations</span><br><span class="line">    method_list_t **mlists &#x3D; (method_list_t **)</span><br><span class="line">        malloc(cats-&gt;count * sizeof(*mlists));</span><br><span class="line">    property_list_t **proplists &#x3D; (property_list_t **)</span><br><span class="line">        malloc(cats-&gt;count * sizeof(*proplists));</span><br><span class="line">    protocol_list_t **protolists &#x3D; (protocol_list_t **)</span><br><span class="line">        malloc(cats-&gt;count * sizeof(*protolists));</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; Count backwards through cats to get newest categories first</span><br><span class="line">    int mcount &#x3D; 0;</span><br><span class="line">    int propcount &#x3D; 0;</span><br><span class="line">    int protocount &#x3D; 0;</span><br><span class="line">    int i &#x3D; cats-&gt;count;</span><br><span class="line">    bool fromBundle &#x3D; NO;</span><br><span class="line">    while (i--) &#123;</span><br><span class="line">        auto&amp; entry &#x3D; cats-&gt;list[i];</span><br><span class="line"></span><br><span class="line">        method_list_t *mlist &#x3D; entry.cat-&gt;methodsForMeta(isMeta);</span><br><span class="line">        if (mlist) &#123;</span><br><span class="line">            mlists[mcount++] &#x3D; mlist;</span><br><span class="line">            fromBundle |&#x3D; entry.hi-&gt;isBundle();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        property_list_t *proplist &#x3D; </span><br><span class="line">            entry.cat-&gt;propertiesForMeta(isMeta, entry.hi);</span><br><span class="line">        if (proplist) &#123;</span><br><span class="line">            proplists[propcount++] &#x3D; proplist;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        protocol_list_t *protolist &#x3D; entry.cat-&gt;protocols;</span><br><span class="line">        if (protolist) &#123;</span><br><span class="line">            protolists[protocount++] &#x3D; protolist;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    auto rw &#x3D; cls-&gt;data();</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; 注意下面的代码，上面采用倒叙遍历方式，所以后编译的 category 会先add到数组的前部</span><br><span class="line">    prepareMethodLists(cls, mlists, mcount, NO, fromBundle);</span><br><span class="line">    rw-&gt;methods.attachLists(mlists, mcount);</span><br><span class="line">    free(mlists);</span><br><span class="line">    if (flush_caches  &amp;&amp;  mcount &gt; 0) flushCaches(cls);</span><br><span class="line"></span><br><span class="line">    rw-&gt;properties.attachLists(proplists, propcount);</span><br><span class="line">    free(proplists);</span><br><span class="line"></span><br><span class="line">    rw-&gt;protocols.attachLists(protolists, protocount);</span><br><span class="line">    free(protolists);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="6-category-amp-extension区别，能给NSObject添加Extension吗，结果如何"><a href="#6-category-amp-extension区别，能给NSObject添加Extension吗，结果如何" class="headerlink" title="6. category &amp; extension区别，能给NSObject添加Extension吗，结果如何"></a>6. category &amp; extension区别，能给NSObject添加Extension吗，结果如何</h3><p>category:</p>
+<p>运行时添加分类属性/协议/方法<br>分类添加的方法会“覆盖”原类方法，因为方法查找的话是从头至尾，一旦查找到了就停止了<br>同名分类方法谁生效取决于编译顺序，image 读取的信息是倒叙的，所以编译越靠后的越先读入<br>名字相同的分类会引起编译报错；<br>extension:</p>
+<p>编译时决议<br>只以声明的形式存在，多数情况下就存在于 .m 文件中；<br>不能为系统类添加扩展</p>
+<h3 id="7-消息转发机制，消息转发机制和其他语言的消息机制优劣对比"><a href="#7-消息转发机制，消息转发机制和其他语言的消息机制优劣对比" class="headerlink" title="7. 消息转发机制，消息转发机制和其他语言的消息机制优劣对比"></a>7. 消息转发机制，消息转发机制和其他语言的消息机制优劣对比</h3><h3 id="8-在方法调用的时候，方法查询-gt-动态解析-gt-消息转发-之前做了什么"><a href="#8-在方法调用的时候，方法查询-gt-动态解析-gt-消息转发-之前做了什么" class="headerlink" title="8. 在方法调用的时候，方法查询-&gt; 动态解析-&gt; 消息转发 之前做了什么"></a>8. 在方法调用的时候，方法查询-&gt; 动态解析-&gt; 消息转发 之前做了什么</h3><h3 id="9-IMP、SEL、Method的区别和使用场景"><a href="#9-IMP、SEL、Method的区别和使用场景" class="headerlink" title="9. IMP、SEL、Method的区别和使用场景"></a>9. IMP、SEL、Method的区别和使用场景</h3><p>三者的定义：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">typedef struct method_t *Method;</span><br><span class="line"></span><br><span class="line">using MethodListIMP &#x3D; IMP;</span><br><span class="line"></span><br><span class="line">struct method_t &#123;</span><br><span class="line">    SEL name;</span><br><span class="line">    const char *types;</span><br><span class="line">    MethodListIMP imp;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>Method 同样是个对象，封装了方法名和实现，关于 Type Encodings。</p>
+<p>Code    Meaning<br>c    A char<br>i    An int<br>s    A short<br>l    A long``l is treated as a 32-bit quantity on 64-bit programs.<br>q    A long long<br>C    An unsigned char<br>I    An unsigned int<br>S    An unsigned short<br>L    An unsigned long<br>Q    An unsigned long long<br>f    A float<br>d    A double<br>B    A C++ bool or a C99 _Bool<br>v    A void</p>
+<ul>
+<li>A character string (char *)<br>@    An object (whether statically typed or typed id)<h1 id="A-class-object-Class"><a href="#A-class-object-Class" class="headerlink" title="A class object (Class)"></a>A class object (Class)</h1>:    A method selector (SEL)<br>[array type]    An array<br>{name=type…}    A structure<br>(name=type…)    A union<br>bnum    A bit field of num bits<br>^type    A pointer to type<br>?    An unknown type (among other things, this code is used for function pointers)</li>
+</ul>
+<p>-(void)hello:(NSString *)name encode 下就是 v@:@</p>
+<h3 id="10-load、initialize方法的区别什么？在继承关系中他们有什么区别"><a href="#10-load、initialize方法的区别什么？在继承关系中他们有什么区别" class="headerlink" title="10. load、initialize方法的区别什么？在继承关系中他们有什么区别"></a>10. load、initialize方法的区别什么？在继承关系中他们有什么区别</h3><p>load 方法调用时机，而且只调用当前类本身，不会调用superClass 的 +load 方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">void</span><br><span class="line">load_images(const char *path __unused, const struct mach_header *mh)</span><br><span class="line">&#123;</span><br><span class="line">    &#x2F;&#x2F; Return without taking locks if there are no +load methods here.</span><br><span class="line">    if (!hasLoadMethods((const headerType *)mh)) return;</span><br><span class="line"></span><br><span class="line">    recursive_mutex_locker_t lock(loadMethodLock);</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; Discover load methods</span><br><span class="line">    &#123;</span><br><span class="line">        mutex_locker_t lock2(runtimeLock);</span><br><span class="line">        prepare_load_methods((const headerType *)mh);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; Call +load methods (without runtimeLock - re-entrant)</span><br><span class="line">    call_load_methods();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void call_load_methods(void)</span><br><span class="line">&#123;</span><br><span class="line">    static bool loading &#x3D; NO;</span><br><span class="line">    bool more_categories;</span><br><span class="line"></span><br><span class="line">    loadMethodLock.assertLocked();</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; Re-entrant calls do nothing; the outermost call will finish the job.</span><br><span class="line">    if (loading) return;</span><br><span class="line">    loading &#x3D; YES;</span><br><span class="line"></span><br><span class="line">    void *pool &#x3D; objc_autoreleasePoolPush();</span><br><span class="line"></span><br><span class="line">    do &#123;</span><br><span class="line">        &#x2F;&#x2F; 1\. Repeatedly call class +loads until there aren&#39;t any more</span><br><span class="line">        while (loadable_classes_used &gt; 0) &#123;</span><br><span class="line">            call_class_loads();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        &#x2F;&#x2F; 2\. Call category +loads ONCE</span><br><span class="line">        more_categories &#x3D; call_category_loads();</span><br><span class="line"></span><br><span class="line">        &#x2F;&#x2F; 3\. Run more +loads if there are classes OR more untried categories</span><br><span class="line">    &#125; while (loadable_classes_used &gt; 0  ||  more_categories);</span><br><span class="line"></span><br><span class="line">    objc_autoreleasePoolPop(pool);</span><br><span class="line"></span><br><span class="line">    loading &#x3D; NO;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>+initialize 实现</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br></pre></td><td class="code"><pre><span class="line">void _class_initialize(Class cls)</span><br><span class="line">&#123;</span><br><span class="line">    assert(!cls-&gt;isMetaClass());</span><br><span class="line"></span><br><span class="line">    Class supercls;</span><br><span class="line">    bool reallyInitialize &#x3D; NO;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; Make sure super is done initializing BEFORE beginning to initialize cls.</span><br><span class="line">    &#x2F;&#x2F; See note about deadlock above.</span><br><span class="line">    supercls &#x3D; cls-&gt;superclass;</span><br><span class="line">    if (supercls  &amp;&amp;  !supercls-&gt;isInitialized()) &#123;</span><br><span class="line">        _class_initialize(supercls);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; Try to atomically set CLS_INITIALIZING.</span><br><span class="line">    &#123;</span><br><span class="line">        monitor_locker_t lock(classInitLock);</span><br><span class="line">        if (!cls-&gt;isInitialized() &amp;&amp; !cls-&gt;isInitializing()) &#123;</span><br><span class="line">            cls-&gt;setInitializing();</span><br><span class="line">            reallyInitialize &#x3D; YES;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    if (reallyInitialize) &#123;</span><br><span class="line">        &#x2F;&#x2F; We successfully set the CLS_INITIALIZING bit. Initialize the class.</span><br><span class="line"></span><br><span class="line">        &#x2F;&#x2F; Record that we&#39;re initializing this class so we can message it.</span><br><span class="line">        _setThisThreadIsInitializingClass(cls);</span><br><span class="line"></span><br><span class="line">        if (MultithreadedForkChild) &#123;</span><br><span class="line">            &#x2F;&#x2F; LOL JK we don&#39;t really call +initialize methods after fork().</span><br><span class="line">            performForkChildInitialize(cls, supercls);</span><br><span class="line">            return;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        &#x2F;&#x2F; Send the +initialize message.</span><br><span class="line">        &#x2F;&#x2F; Note that +initialize is sent to the superclass (again) if </span><br><span class="line">        &#x2F;&#x2F; this class doesn&#39;t implement +initialize. 2157218</span><br><span class="line">        if (PrintInitializing) &#123;</span><br><span class="line">            _objc_inform(&quot;INITIALIZE: thread %p: calling +[%s initialize]&quot;,</span><br><span class="line">                         pthread_self(), cls-&gt;nameForLogging());</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        &#x2F;&#x2F; Exceptions: A +initialize call that throws an exception </span><br><span class="line">        &#x2F;&#x2F; is deemed to be a complete and successful +initialize.</span><br><span class="line">        &#x2F;&#x2F;</span><br><span class="line">        &#x2F;&#x2F; Only __OBJC2__ adds these handlers. !__OBJC2__ has a</span><br><span class="line">        &#x2F;&#x2F; bootstrapping problem of this versus CF&#39;s call to</span><br><span class="line">        &#x2F;&#x2F; objc_exception_set_functions().</span><br><span class="line">#if __OBJC2__</span><br><span class="line">        @try</span><br><span class="line">#endif</span><br><span class="line">        &#123;</span><br><span class="line">            callInitialize(cls);</span><br><span class="line"></span><br><span class="line">            if (PrintInitializing) &#123;</span><br><span class="line">                _objc_inform(&quot;INITIALIZE: thread %p: finished +[%s initialize]&quot;,</span><br><span class="line">                             pthread_self(), cls-&gt;nameForLogging());</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">#if __OBJC2__</span><br><span class="line">        @catch (...) &#123;</span><br><span class="line">            if (PrintInitializing) &#123;</span><br><span class="line">                _objc_inform(&quot;INITIALIZE: thread %p: +[%s initialize] &quot;</span><br><span class="line">                             &quot;threw an exception&quot;,</span><br><span class="line">                             pthread_self(), cls-&gt;nameForLogging());</span><br><span class="line">            &#125;</span><br><span class="line">            @throw;</span><br><span class="line">        &#125;</span><br><span class="line">        @finally</span><br><span class="line">#endif</span><br><span class="line">        &#123;</span><br><span class="line">            &#x2F;&#x2F; Done initializing.</span><br><span class="line">            lockAndFinishInitializing(cls, supercls);</span><br><span class="line">        &#125;</span><br><span class="line">        return;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    else if (cls-&gt;isInitializing()) &#123;</span><br><span class="line">        &#x2F;&#x2F; We couldn&#39;t set INITIALIZING because INITIALIZING was already set.</span><br><span class="line">        &#x2F;&#x2F; If this thread set it earlier, continue normally.</span><br><span class="line">        &#x2F;&#x2F; If some other thread set it, block until initialize is done.</span><br><span class="line">        &#x2F;&#x2F; It&#39;s ok if INITIALIZING changes to INITIALIZED while we&#39;re here, </span><br><span class="line">        &#x2F;&#x2F;   because we safely check for INITIALIZED inside the lock </span><br><span class="line">        &#x2F;&#x2F;   before blocking.</span><br><span class="line">        if (_thisThreadIsInitializingClass(cls)) &#123;</span><br><span class="line">            return;</span><br><span class="line">        &#125; else if (!MultithreadedForkChild) &#123;</span><br><span class="line">            waitForInitializeToComplete(cls);</span><br><span class="line">            return;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            &#x2F;&#x2F; We&#39;re on the child side of fork(), facing a class that</span><br><span class="line">            &#x2F;&#x2F; was initializing by some other thread when fork() was called.</span><br><span class="line">            _setThisThreadIsInitializingClass(cls);</span><br><span class="line">            performForkChildInitialize(cls, supercls);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    else if (cls-&gt;isInitialized()) &#123;</span><br><span class="line">        &#x2F;&#x2F; Set CLS_INITIALIZING failed because someone else already </span><br><span class="line">        &#x2F;&#x2F;   initialized the class. Continue normally.</span><br><span class="line">        &#x2F;&#x2F; NOTE this check must come AFTER the ISINITIALIZING case.</span><br><span class="line">        &#x2F;&#x2F; Otherwise: Another thread is initializing this class. ISINITIALIZED </span><br><span class="line">        &#x2F;&#x2F;   is false. Skip this clause. Then the other thread finishes </span><br><span class="line">        &#x2F;&#x2F;   initialization and sets INITIALIZING&#x3D;no and INITIALIZED&#x3D;yes. </span><br><span class="line">        &#x2F;&#x2F;   Skip the ISINITIALIZING clause. Die horribly.</span><br><span class="line">        return;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    else &#123;</span><br><span class="line">        &#x2F;&#x2F; We shouldn&#39;t be here. </span><br><span class="line">        _objc_fatal(&quot;thread-safe class init in objc runtime is buggy!&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void callInitialize(Class cls)</span><br><span class="line">&#123;</span><br><span class="line">    ((void(*)(Class, SEL))objc_msgSend)(cls, SEL_initialize);</span><br><span class="line">    asm(&quot;&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/iOS%E9%9D%A2%E8%AF%95/" rel="tag"># iOS面试</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2016/05/26/%E3%80%90iOS%E9%9D%A2%E8%AF%95%E3%80%91%E9%9D%A2%E8%AF%95%E9%A2%9801/" rel="prev" title="【iOS面试】面试题（阿里-P6一面-参考思路）">
+      <i class="fa fa-chevron-left"></i> 【iOS面试】面试题（阿里-P6一面-参考思路）
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2016/05/26/%E3%80%90iOS%E9%9D%A2%E8%AF%95%E3%80%91%E9%9D%A2%E8%AF%95%E9%A2%9802/" rel="next" title="【iOS面试】面试题（阿里-P6一面-参考思路）">
+      【iOS面试】面试题（阿里-P6一面-参考思路） <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-struct和class的区别"><span class="nav-number">1.</span> <span class="nav-text">1.struct和class的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-介绍一下观察者模式"><span class="nav-number">2.</span> <span class="nav-text">2.介绍一下观察者模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-在一个https连接的网站里，输入账号密码点击登录后，到服务器返回这个请求前，中间经历了什么"><span class="nav-number">3.</span> <span class="nav-text">3.在一个https连接的网站里，输入账号密码点击登录后，到服务器返回这个请求前，中间经历了什么</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-在一个app中间有一个button，在你手触摸屏幕点击后，到这个button收到点击事件，中间发生了什么"><span class="nav-number">4.</span> <span class="nav-text">4.在一个app中间有一个button，在你手触摸屏幕点击后，到这个button收到点击事件，中间发生了什么</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-UIResponder、UIControl、UIView的关系"><span class="nav-number">5.</span> <span class="nav-text">5.UIResponder、UIControl、UIView的关系</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#结构模型"><span class="nav-number"></span> <span class="nav-text">结构模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-介绍下runtime的内存模型（isa、对象、类、metaclass、结构体的存储信息等）"><span class="nav-number">1.</span> <span class="nav-text">1. 介绍下runtime的内存模型（isa、对象、类、metaclass、结构体的存储信息等）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-为什么要设计metaclass"><span class="nav-number">2.</span> <span class="nav-text">2. 为什么要设计metaclass</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-class-copyIvarList-amp-class-copyPropertyList区别"><span class="nav-number">3.</span> <span class="nav-text">3. class_copyIvarList &amp; class_copyPropertyList区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-class-rw-t-和-class-ro-t-的区别"><span class="nav-number">4.</span> <span class="nav-text">4.class_rw_t 和 class_ro_t 的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-category如何被加载的-两个category的load方法的加载顺序，两个category的同名方法的加载顺序"><span class="nav-number">5.</span> <span class="nav-text">5. category如何被加载的,两个category的load方法的加载顺序，两个category的同名方法的加载顺序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-category-amp-extension区别，能给NSObject添加Extension吗，结果如何"><span class="nav-number">6.</span> <span class="nav-text">6. category &amp; extension区别，能给NSObject添加Extension吗，结果如何</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-消息转发机制，消息转发机制和其他语言的消息机制优劣对比"><span class="nav-number">7.</span> <span class="nav-text">7. 消息转发机制，消息转发机制和其他语言的消息机制优劣对比</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-在方法调用的时候，方法查询-gt-动态解析-gt-消息转发-之前做了什么"><span class="nav-number">8.</span> <span class="nav-text">8. 在方法调用的时候，方法查询-&gt; 动态解析-&gt; 消息转发 之前做了什么</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-IMP、SEL、Method的区别和使用场景"><span class="nav-number">9.</span> <span class="nav-text">9. IMP、SEL、Method的区别和使用场景</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#A-class-object-Class"><span class="nav-number"></span> <span class="nav-text">A class object (Class)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#10-load、initialize方法的区别什么？在继承关系中他们有什么区别"><span class="nav-number">1.</span> <span class="nav-text">10. load、initialize方法的区别什么？在继承关系中他们有什么区别</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">张博文</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">37</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">张博文</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
