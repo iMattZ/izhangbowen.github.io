@@ -155,11 +155,13 @@
 
   <div class="posts-expand">
       
+      
+      
           
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/05/26/%E3%80%90iOS%E3%80%91%E9%9D%A2%E8%AF%95%E9%A2%98%E6%B1%87%E6%80%BB/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/26/%E3%80%90iOS%E3%80%91%E9%98%BF%E9%87%8C%E3%80%81%E5%AD%97%E8%8A%82%EF%BC%9A%E4%B8%80%E5%A5%97%E9%AB%98%E6%95%88%E7%9A%84iOS%E9%9D%A2%E8%AF%95%E9%A2%98/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -173,7 +175,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2016/05/26/%E3%80%90iOS%E3%80%91%E9%9D%A2%E8%AF%95%E9%A2%98%E6%B1%87%E6%80%BB/" class="post-title-link" itemprop="url">【iOS】iOS面试题</a>
+            <a href="/2019/12/26/%E3%80%90iOS%E3%80%91%E9%98%BF%E9%87%8C%E3%80%81%E5%AD%97%E8%8A%82%EF%BC%9A%E4%B8%80%E5%A5%97%E9%AB%98%E6%95%88%E7%9A%84iOS%E9%9D%A2%E8%AF%95%E9%A2%98/" class="post-title-link" itemprop="url">【iOS】阿里、字节：一套高效的iOS面试题</a>
         </h2>
 
         <div class="post-meta">
@@ -183,14 +185,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2016-05-26 06:00:00" itemprop="dateCreated datePublished" datetime="2016-05-26T06:00:00+08:00">2016-05-26</time>
+              <time title="创建时间：2019-12-26 06:00:00" itemprop="dateCreated datePublished" datetime="2019-12-26T06:00:00+08:00">2019-12-26</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-03-29 19:03:12" itemprop="dateModified" datetime="2020-03-29T19:03:12+08:00">2020-03-29</time>
+                <time title="修改时间：2020-04-05 11:23:47" itemprop="dateModified" datetime="2020-04-05T11:23:47+08:00">2020-04-05</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -217,15 +219,452 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h3 id="1-如何高效的切圆角？"><a href="#1-如何高效的切圆角？" class="headerlink" title="1.如何高效的切圆角？"></a>1.如何高效的切圆角？</h3><pre><code>切圆角共有三种方案：
-- CornerRadius + MasksToBounds：适用于单个视图或视图不在列表上且量级较小的情况，会触发离屏渲染
-- CAShapeLayer + UIBezierPath：会触发离屏渲染，性能消耗严重，不推荐使用
-- Core Graphics：推荐使用（不会触发离屏渲染）</code></pre><h3 id="2-什么是隐式动画和显示动画？"><a href="#2-什么是隐式动画和显示动画？" class="headerlink" title="2.什么是隐式动画和显示动画？"></a>2.什么是隐式动画和显示动画？</h3><pre><code>- 隐式动画指的是改变属性值而产生的默认的过度动画（如backgound、cornerRadius等），不需要初始化任何类，系统自己处理动画属性；
-- 显示动画是指自己创建一个动画对象并附加到layer上，如 CAAnimation、CABasicAnimation、CAKeyframeAnimation。</code></pre><h3 id="3-UIView-和-CALayer-的区别？"><a href="#3-UIView-和-CALayer-的区别？" class="headerlink" title="3.UIView 和 CALayer 的区别？"></a>3.UIView 和 CALayer 的区别？</h3><pre><code>- UIView 是负责事件的传递，参与视图响应链
-- CALayer 负责视图的显示功能</code></pre><h3 id="4-离屏渲染？"><a href="#4-离屏渲染？" class="headerlink" title="4.离屏渲染？"></a>4.离屏渲染？</h3><h3 id="5-Objective-C-是否支持方法重载（overloading）？"><a href="#5-Objective-C-是否支持方法重载（overloading）？" class="headerlink" title="5.Objective-C 是否支持方法重载（overloading）？"></a>5.Objective-C 是否支持方法重载（overloading）？</h3><pre><code>- 不支持。方法重载（overloading）：允许创建多项名称相同但输入输出类型或个数不同的方法。</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 这两个方法名字是不一样的，虽然都是writeToFile开头</span><br><span class="line">-(void) writeToFile:(NSString *)path fromInt:(int)anInt;</span><br><span class="line">-(void) writeToFile:(NSString *)path fromString:(NSString *)aString;</span><br></pre></td></tr></table></figure>
+          <p>由于问题量太大，本文只是给了问题，希望发挥圈友的动手能力，自己去探索下，也可以在下方进行评论回复你的答案或者提出更高质量的问题！！！</p>
+<h2 id="runtime相关问题"><a href="#runtime相关问题" class="headerlink" title="runtime相关问题"></a>runtime相关问题</h2><p>runtime是iOS开发最核心的知识了，如果下面的问题都解决了，那么对runtime的理解已经很深了。 runtime已经开源了，这有一份别人调试好可运行的源码objc-runtime，也可以去官网找objc4</p>
+<h2 id="结构模型"><a href="#结构模型" class="headerlink" title="结构模型"></a>结构模型</h2><ol>
+<li>介绍下runtime的内存模型（isa、对象、类、metaclass、结构体的存储信息等）</li>
+<li>为什么要设计metaclass</li>
+<li>class_copyIvarList &amp; class_copyPropertyList区别</li>
+<li>class_rw_t 和 class_ro_t 的区别</li>
+<li>category如何被加载的,两个category的load方法的加载顺序，两个category的同名方法的加载顺序</li>
+<li>category &amp; extension区别，能给NSObject添加Extension吗，结果如何</li>
+<li>消息转发机制，消息转发机制和其他语言的消息机制优劣对比</li>
+<li>在方法调用的时候，方法查询-&gt; 动态解析-&gt; 消息转发 之前做了什么</li>
+<li>IMP、SEL、Method的区别和使用场景</li>
+<li>load、initialize方法的区别什么？在继承关系中他们有什么区别</li>
+<li>说说消息转发机制的优劣</li>
+</ol>
+<h2 id="内存管理"><a href="#内存管理" class="headerlink" title="内存管理"></a>内存管理</h2><ol>
+<li>weak的实现原理？SideTable的结构是什么样的</li>
+<li>关联对象的应用？系统如何实现关联对象的</li>
+<li>关联对象的如何进行内存管理的？关联对象如何实现weak属性</li>
+<li>Autoreleasepool的原理？所使用的的数据结构是什么</li>
+<li>ARC的实现原理？ARC下对retain &amp; release做了哪些优化</li>
+<li>ARC下哪些情况会造成内存泄漏</li>
+</ol>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ol>
+<li>Method Swizzle注意事项</li>
+<li>属性修饰符atomic的内部实现是怎么样的?能保证线程安全吗</li>
+<li>iOS 中内省的几个方法有哪些？内部实现原理是什么</li>
+<li>class、objc_getClass、object_getclass 方法有什么区别?</li>
+</ol>
+<h2 id="NSNotification相关"><a href="#NSNotification相关" class="headerlink" title="NSNotification相关"></a>NSNotification相关</h2>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2016/05/26/%E3%80%90iOS%E3%80%91%E9%9D%A2%E8%AF%95%E9%A2%98%E6%B1%87%E6%80%BB/#more" rel="contents">
+              <a class="btn" href="/2019/12/26/%E3%80%90iOS%E3%80%91%E9%98%BF%E9%87%8C%E3%80%81%E5%AD%97%E8%8A%82%EF%BC%9A%E4%B8%80%E5%A5%97%E9%AB%98%E6%95%88%E7%9A%84iOS%E9%9D%A2%E8%AF%95%E9%A2%98/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+      
+          
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/13/%E3%80%90%E5%B7%A5%E5%85%B7%E3%80%91%E7%BB%88%E7%AB%AF%E8%AE%A1%E7%AE%97%E4%BB%A3%E7%A0%81%E8%A1%8C%E6%95%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="张博文">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="张博文的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/07/13/%E3%80%90%E5%B7%A5%E5%85%B7%E3%80%91%E7%BB%88%E7%AB%AF%E8%AE%A1%E7%AE%97%E4%BB%A3%E7%A0%81%E8%A1%8C%E6%95%B0/" class="post-title-link" itemprop="url">【工具】终端计算代码行数</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-07-13 20:46:25" itemprop="dateCreated datePublished" datetime="2019-07-13T20:46:25+08:00">2019-07-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-04-01 22:35:52" itemprop="dateModified" datetime="2020-04-01T22:35:52+08:00">2020-04-01</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%B7%A5%E5%85%B7/" itemprop="url" rel="index"><span itemprop="name">工具</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>打开终端<br>cd 进入项目根目录（即工程文件所在目录）<br>输入以下命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find . &quot;(&quot; -name &quot;*.m&quot; -or -name &quot;*.mm&quot; -or -name &quot;*.cpp&quot; -or -name &quot;*.h&quot; -or -name &quot;*.rss&quot; &quot;)&quot; -print | xargs wc -l</span><br></pre></td></tr></table></figure>
+<p>回车，出结果</p>
+
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/07/13/%E3%80%90%E5%B7%A5%E5%85%B7%E3%80%91%E7%BB%88%E7%AB%AF%E8%AE%A1%E7%AE%97%E4%BB%A3%E7%A0%81%E8%A1%8C%E6%95%B0/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+      
+          
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/13/%E3%80%90Flask%E3%80%91%E5%9F%BA%E6%9C%AC%E7%9A%84%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="张博文">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="张博文的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/07/13/%E3%80%90Flask%E3%80%91%E5%9F%BA%E6%9C%AC%E7%9A%84%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" class="post-title-link" itemprop="url">【Flask入门】环境的基本配置以及相应的准备工作</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-07-13 20:46:25" itemprop="dateCreated datePublished" datetime="2019-07-13T20:46:25+08:00">2019-07-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-03-29 19:15:02" itemprop="dateModified" datetime="2020-03-29T19:15:02+08:00">2020-03-29</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python/" itemprop="url" rel="index"><span itemprop="name">Python</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python/Flask/" itemprop="url" rel="index"><span itemprop="name">Flask</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="配置研发环境的配置"><a href="#配置研发环境的配置" class="headerlink" title="配置研发环境的配置"></a>配置研发环境的配置</h2><ul>
+<li>Python3.7</li>
+<li>PyCharm</li>
+<li>pip 和 virtualenv</li>
+<li>MySql数据库服务</li>
+</ul>
+<h2 id="Python3-和-Python2"><a href="#Python3-和-Python2" class="headerlink" title="Python3 和 Python2"></a>Python3 和 Python2</h2><ul>
+<li>Python2 官方说维护到2020年，但是由于Python2以前使用基数过多，所以Python2 退出历史舞台还得很久</li>
+<li>Python3 在足够的时间内一定会成为主流，但是肯定还有Python4出来的。所以研发是一个要时刻保持更新自己的行业</li>
+<li>如若使用Python2，就不要使用Python2.7以前的。</li>
+</ul>
+<h2 id="Python开发环境的IDE：PyCharm"><a href="#Python开发环境的IDE：PyCharm" class="headerlink" title="Python开发环境的IDE：PyCharm"></a>Python开发环境的IDE：PyCharm</h2><h2 id="Pip-和-virtualenv"><a href="#Pip-和-virtualenv" class="headerlink" title="Pip 和 virtualenv"></a>Pip 和 virtualenv</h2><ul>
+<li>Pip：Python的包管理工具。通过此工具可以方便查找、下载、卸载包的功能</li>
+<li>virtualenv：Python虚拟环境，方便我们在不同的环境测试，并且不干扰本地的环境</li>
+</ul>
+<h2 id="MySqul数据库服务"><a href="#MySqul数据库服务" class="headerlink" title="MySqul数据库服务"></a>MySqul数据库服务</h2><ul>
+<li>MySql客户端的工具<ul>
+<li>SQLyog</li>
+<li>Navicat</li>
+<li>HeidiSQL</li>
+<li>Sequal Pro</li>
+<li>phpMyadmin</li>
+</ul>
+</li>
+</ul>
+<h2 id="开发环境的准备"><a href="#开发环境的准备" class="headerlink" title="开发环境的准备"></a>开发环境的准备</h2>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/07/13/%E3%80%90Flask%E3%80%91%E5%9F%BA%E6%9C%AC%E7%9A%84%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+      
+          
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/05/26/%E3%80%90iOS%E9%9D%A2%E8%AF%95%E3%80%91%E9%9D%A2%E8%AF%95%E9%A2%9802/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="张博文">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="张博文的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2016/05/26/%E3%80%90iOS%E9%9D%A2%E8%AF%95%E3%80%91%E9%9D%A2%E8%AF%95%E9%A2%9802/" class="post-title-link" itemprop="url">【iOS面试】面试题（阿里-P6一面-参考思路）</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2016-05-26 06:00:00" itemprop="dateCreated datePublished" datetime="2016-05-26T06:00:00+08:00">2016-05-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-03-31 22:11:40" itemprop="dateModified" datetime="2020-03-31T22:11:40+08:00">2020-03-31</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index"><span itemprop="name">iOS</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" itemprop="url" rel="index"><span itemprop="name">性能优化</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <ul>
+<li></li>
+<li>1、说一下OC的反射机制；</li>
+<li>2、block的实质是什么？有几种block？分别是怎样产生的？</li>
+<li>3、__block修饰的变量为什么能在block里面能改变其值？</li>
+<li>4、说一下线程之间的通信。</li>
+<li>5、你们应用的崩溃率是多少？</li>
+<li>6、说一下hash算法。</li>
+<li>7、NSDictionary的实现原理是什么？</li>
+<li>8、你们的App是如何处理本地数据安全的（比如用户名的密码）？</li>
+<li>9、遇到过BAD_ACCESS的错误吗？你是怎样调试的？</li>
+<li>10、什么是指针常量和常量指针？</li>
+<li>11、不借用第三个变量，如何交换两个变量的值？要求手动写出交换过程。</li>
+<li>12、若你去设计一个通知中心，你会怎样设计？</li>
+<li>13、如何去设计一个方案去应对后端频繁更改的字段接口？</li>
+<li>14、KVO、KVC的实现原理</li>
+<li>15、用递归算法求1到n的和</li>
+<li>16、category为什么不能添加属性？</li>
+<li>17、说一下runloop和线程的关系。</li>
+<li>18、说一下autoreleasePool的实现原理。</li>
+<li>19、说一下简单工厂模式，工厂模式以及抽象工厂模式？</li>
+<li>20、如何设计一个网络请求库？</li>
+<li>21、说一下多线程，你平常是怎么用的？</li>
+<li>22、说一下UITableViewCell的卡顿你是怎么优化的？</li>
+<li>23、看过哪些三方库？说一下实现原理以及好在哪里？</li>
+<li>24、说一下HTTP协议以及经常使用的code码的含义。</li>
+<li>25、设计一套缓存策略。</li>
+<li>26、设计一个检测主线和卡顿的方案。</li>
+<li>27、说一下runtime，工作是如何使用的？看过runtime源码吗？</li>
+<li>28、说几个你在工作中使用到的线程安全的例子。</li>
+<li>29、用过哪些锁？哪些锁的性能比较高？</li>
+<li>30、说一下HTTP和HTTPs的请求过程？</li>
+<li>31、说一下TCP和UDP</li>
+<li>32、说一下静态库和动态库之间的区别</li>
+<li>33、load和initialize方法分别在什么时候调用的？</li>
+<li>34、NSNotificationCenter是在哪个线程发送的通知？</li>
+<li>35、用过swift吗？如果没有，平常有学习吗？</li>
+<li>36、说一下你对架构的理解？</li>
+<li>37、为什么一定要在主线程里面更新UI？</li>
+</ul>
+<p><a href="https://www.jianshu.com/p/980eb40d1b21" target="_blank" rel="noopener">我的iOS面试经历（附面试题干货）</a></p>
+
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2016/05/26/%E3%80%90iOS%E9%9D%A2%E8%AF%95%E3%80%91%E9%9D%A2%E8%AF%95%E9%A2%9802/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+      
+          
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/05/26/%E3%80%90iOS%E3%80%91%E9%9D%A2%E8%AF%95%E9%A2%98%E6%B1%87%E6%80%BB01/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="张博文">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="张博文的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2016/05/26/%E3%80%90iOS%E3%80%91%E9%9D%A2%E8%AF%95%E9%A2%98%E6%B1%87%E6%80%BB01/" class="post-title-link" itemprop="url">【iOS】iOS面试题01</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2016-05-26 06:00:00" itemprop="dateCreated datePublished" datetime="2016-05-26T06:00:00+08:00">2016-05-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-04-23 08:56:25" itemprop="dateModified" datetime="2020-04-23T08:56:25+08:00">2020-04-23</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index"><span itemprop="name">iOS</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/%E9%9D%A2%E8%AF%95%E9%A2%98/" itemprop="url" rel="index"><span itemprop="name">面试题</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="1-struct和class的区别"><a href="#1-struct和class的区别" class="headerlink" title="1.struct和class的区别"></a>1.struct和class的区别</h3><h3 id="2-介绍一下观察者模式"><a href="#2-介绍一下观察者模式" class="headerlink" title="2.介绍一下观察者模式"></a>2.介绍一下观察者模式</h3><h3 id="3-在一个https连接的网站里，输入账号密码点击登录后，到服务器返回这个请求前，中间经历了什么"><a href="#3-在一个https连接的网站里，输入账号密码点击登录后，到服务器返回这个请求前，中间经历了什么" class="headerlink" title="3.在一个https连接的网站里，输入账号密码点击登录后，到服务器返回这个请求前，中间经历了什么"></a>3.在一个https连接的网站里，输入账号密码点击登录后，到服务器返回这个请求前，中间经历了什么</h3><h3 id="4-在一个app中间有一个button，在你手触摸屏幕点击后，到这个button收到点击事件，中间发生了什么"><a href="#4-在一个app中间有一个button，在你手触摸屏幕点击后，到这个button收到点击事件，中间发生了什么" class="headerlink" title="4.在一个app中间有一个button，在你手触摸屏幕点击后，到这个button收到点击事件，中间发生了什么"></a>4.在一个app中间有一个button，在你手触摸屏幕点击后，到这个button收到点击事件，中间发生了什么</h3><h3 id="5-UIResponder、UIControl、UIView的关系"><a href="#5-UIResponder、UIControl、UIView的关系" class="headerlink" title="5.UIResponder、UIControl、UIView的关系"></a>5.UIResponder、UIControl、UIView的关系</h3><h1 id="结构模型"><a href="#结构模型" class="headerlink" title="结构模型"></a>结构模型</h1><h3 id="1-介绍下runtime的内存模型（isa、对象、类、metaclass、结构体的存储信息等）"><a href="#1-介绍下runtime的内存模型（isa、对象、类、metaclass、结构体的存储信息等）" class="headerlink" title="1. 介绍下runtime的内存模型（isa、对象、类、metaclass、结构体的存储信息等）"></a>1. 介绍下runtime的内存模型（isa、对象、类、metaclass、结构体的存储信息等）</h3><h3 id="2-为什么要设计metaclass"><a href="#2-为什么要设计metaclass" class="headerlink" title="2. 为什么要设计metaclass"></a>2. 为什么要设计metaclass</h3><h3 id="3-class-copyIvarList-amp-class-copyPropertyList区别"><a href="#3-class-copyIvarList-amp-class-copyPropertyList区别" class="headerlink" title="3. class_copyIvarList &amp; class_copyPropertyList区别"></a>3. class_copyIvarList &amp; class_copyPropertyList区别</h3><p>class_copyIvarList 获取类对象中的所有实例变量信息，从 class_ro_t 中获取</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2016/05/26/%E3%80%90iOS%E3%80%91%E9%9D%A2%E8%AF%95%E9%A2%98%E6%B1%87%E6%80%BB01/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -313,97 +752,6 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2016/05/26/%E3%80%90iOS%E3%80%91%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%8D%98%E4%BE%8B%E6%A8%A1%E5%BC%8F/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-      
-          
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/05/26/%E3%80%90iOS%E3%80%91%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="张博文">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="张博文的博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2016/05/26/%E3%80%90iOS%E3%80%91%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" class="post-title-link" itemprop="url">【iOS】iOS性能优化</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2016-05-26 06:00:00" itemprop="dateCreated datePublished" datetime="2016-05-26T06:00:00+08:00">2016-05-26</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-04-23 08:56:25" itemprop="dateModified" datetime="2020-04-23T08:56:25+08:00">2020-04-23</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/iOS/" itemprop="url" rel="index"><span itemprop="name">iOS</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/iOS/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" itemprop="url" rel="index"><span itemprop="name">性能优化</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><p><a href="https://www.jianshu.com/p/fb9ab792d94d" target="_blank" rel="noopener">iOS性能优化</a><br><a href="https://www.jianshu.com/p/0c135d5b9840" target="_blank" rel="noopener">iOS中性能优化有哪些？</a><br><a href="https://www.jianshu.com/p/45f0fc516ce6" target="_blank" rel="noopener">2019年iOS面试题</a><br><a href="http://www.cocoachina.com/articles/21362" target="_blank" rel="noopener">iOS面试题：阿里-P6一面-参考思路</a><br><a href="https://www.cnblogs.com/Julday/p/12491674.html" target="_blank" rel="noopener">阿里、字节：一套高效的iOS面试题</a><br><a href="https://www.jianshu.com/p/c6469ecb3828" target="_blank" rel="noopener">iOS 性能优化面试题</a><br><a href="https://www.jianshu.com/p/0d4d8a79fd97" target="_blank" rel="noopener">备战2020：那些 iOS开发 常用的底层面试题合集</a></p>
-<p><a href="https://www.jianshu.com/u/0ac1433a3074" target="_blank" rel="noopener">全网iOS面试题总结</a><br><a href="https://blog.csdn.net/u012094456/article/details/102957681" target="_blank" rel="noopener">iOS 性能优化面试题（如何高性能的画一个圆角？）</a><br><a href="https://blog.51cto.com/14121524/2412956" target="_blank" rel="noopener">2019 iOS面试题总结，更新性能优化方面（题目及答案已上传Github</a></p>
-<p><a href="https://www.jianshu.com/p/fb9ab792d94d" target="_blank" rel="noopener">iOS性能优化</a><br><a href="https://www.jianshu.com/p/6a5304091ed5" target="_blank" rel="noopener">性能优化</a></p>
-<p><a href="https://www.jianshu.com/p/45f0fc516ce6" target="_blank" rel="noopener">2019年iOS面试题</a><br><a href="https://www.cnblogs.com/oc-bowen/p/5999997.html" target="_blank" rel="noopener">iOS app性能优化的那些事</a><br><a href="https://www.jianshu.com/p/0858878e331f" target="_blank" rel="noopener">优化 App 的启动时间实践 iOS</a></p>
-
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2016/05/26/%E3%80%90iOS%E3%80%91%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -554,7 +902,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/05/26/%E3%80%90iOS%E3%80%91%E9%9D%A2%E8%AF%95%E9%A2%98%E6%B1%87%E6%80%BB01/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/05/26/%E3%80%90iOS%E9%9D%A2%E8%AF%95%E3%80%91%E9%9D%A2%E8%AF%95%E9%A2%9801/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -568,7 +916,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2016/05/26/%E3%80%90iOS%E3%80%91%E9%9D%A2%E8%AF%95%E9%A2%98%E6%B1%87%E6%80%BB01/" class="post-title-link" itemprop="url">【iOS】iOS面试题01</a>
+            <a href="/2016/05/26/%E3%80%90iOS%E9%9D%A2%E8%AF%95%E3%80%91%E9%9D%A2%E8%AF%95%E9%A2%9801/" class="post-title-link" itemprop="url">【iOS面试】面试题（阿里-P6一面-参考思路）</a>
         </h2>
 
         <div class="post-meta">
@@ -585,7 +933,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-04-23 08:56:25" itemprop="dateModified" datetime="2020-04-23T08:56:25+08:00">2020-04-23</time>
+                <time title="修改时间：2020-03-31 22:08:57" itemprop="dateModified" datetime="2020-03-31T22:08:57+08:00">2020-03-31</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -597,7 +945,7 @@
                 </span>
                   ，
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/iOS/%E9%9D%A2%E8%AF%95%E9%A2%98/" itemprop="url" rel="index"><span itemprop="name">面试题</span></a>
+                  <a href="/categories/iOS/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" itemprop="url" rel="index"><span itemprop="name">性能优化</span></a>
                 </span>
             </span>
 
@@ -612,186 +960,18 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h3 id="1-struct和class的区别"><a href="#1-struct和class的区别" class="headerlink" title="1.struct和class的区别"></a>1.struct和class的区别</h3><h3 id="2-介绍一下观察者模式"><a href="#2-介绍一下观察者模式" class="headerlink" title="2.介绍一下观察者模式"></a>2.介绍一下观察者模式</h3><h3 id="3-在一个https连接的网站里，输入账号密码点击登录后，到服务器返回这个请求前，中间经历了什么"><a href="#3-在一个https连接的网站里，输入账号密码点击登录后，到服务器返回这个请求前，中间经历了什么" class="headerlink" title="3.在一个https连接的网站里，输入账号密码点击登录后，到服务器返回这个请求前，中间经历了什么"></a>3.在一个https连接的网站里，输入账号密码点击登录后，到服务器返回这个请求前，中间经历了什么</h3><h3 id="4-在一个app中间有一个button，在你手触摸屏幕点击后，到这个button收到点击事件，中间发生了什么"><a href="#4-在一个app中间有一个button，在你手触摸屏幕点击后，到这个button收到点击事件，中间发生了什么" class="headerlink" title="4.在一个app中间有一个button，在你手触摸屏幕点击后，到这个button收到点击事件，中间发生了什么"></a>4.在一个app中间有一个button，在你手触摸屏幕点击后，到这个button收到点击事件，中间发生了什么</h3><h3 id="5-UIResponder、UIControl、UIView的关系"><a href="#5-UIResponder、UIControl、UIView的关系" class="headerlink" title="5.UIResponder、UIControl、UIView的关系"></a>5.UIResponder、UIControl、UIView的关系</h3><h1 id="结构模型"><a href="#结构模型" class="headerlink" title="结构模型"></a>结构模型</h1><h3 id="1-介绍下runtime的内存模型（isa、对象、类、metaclass、结构体的存储信息等）"><a href="#1-介绍下runtime的内存模型（isa、对象、类、metaclass、结构体的存储信息等）" class="headerlink" title="1. 介绍下runtime的内存模型（isa、对象、类、metaclass、结构体的存储信息等）"></a>1. 介绍下runtime的内存模型（isa、对象、类、metaclass、结构体的存储信息等）</h3><h3 id="2-为什么要设计metaclass"><a href="#2-为什么要设计metaclass" class="headerlink" title="2. 为什么要设计metaclass"></a>2. 为什么要设计metaclass</h3><h3 id="3-class-copyIvarList-amp-class-copyPropertyList区别"><a href="#3-class-copyIvarList-amp-class-copyPropertyList区别" class="headerlink" title="3. class_copyIvarList &amp; class_copyPropertyList区别"></a>3. class_copyIvarList &amp; class_copyPropertyList区别</h3><p>class_copyIvarList 获取类对象中的所有实例变量信息，从 class_ro_t 中获取</p>
+          <h3 id="阿里-p6-一面"><a href="#阿里-p6-一面" class="headerlink" title="阿里-p6-一面"></a>阿里-p6-一面</h3><p>1.介绍下内存的几大区域？</p>
+<p>2.你是如何组件化解耦的？</p>
+<p>3.runtime如何通过selector找到对应的IMP地址</p>
+<p>4.runloop内部实现逻辑？</p>
+<p>5.你理解的多线程？</p>
+<p>6.GCD执行原理？</p>
+<p>7.怎么防止别人反编译你的app？</p>
+<p>8.YYAsyncLayer如何异步绘制？</p>
+<p>9.优化你是从哪几方面着手？</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2016/05/26/%E3%80%90iOS%E3%80%91%E9%9D%A2%E8%AF%95%E9%A2%98%E6%B1%87%E6%80%BB01/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-      
-          
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2013/07/13/%E3%80%90%E7%AE%97%E6%B3%95%E3%80%91%E6%9F%A5%E6%89%BE%E6%9C%80%E9%95%BF%E5%AD%97%E7%AC%A6%E4%B8%B2%E9%95%BF%E5%BA%A6/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="张博文">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="张博文的博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2013/07/13/%E3%80%90%E7%AE%97%E6%B3%95%E3%80%91%E6%9F%A5%E6%89%BE%E6%9C%80%E9%95%BF%E5%AD%97%E7%AC%A6%E4%B8%B2%E9%95%BF%E5%BA%A6/" class="post-title-link" itemprop="url">【算法】在一个以空格分隔的字符串中，求最长子串长度，时间和空间复杂度尽可能最优。</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2013-07-13 20:46:25" itemprop="dateCreated datePublished" datetime="2013-07-13T20:46:25+08:00">2013-07-13</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-03-29 19:10:57" itemprop="dateModified" datetime="2020-03-29T19:10:57+08:00">2020-03-29</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/iOS/" itemprop="url" rel="index"><span itemprop="name">iOS</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/iOS/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>在一个以空格分隔的字符串中，求最长子串长度，时间和空间复杂度尽可能最优。例如：”a bc defg ghi j k l mn op q”；<br>解决方案：使用C语言实现的</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2013/07/13/%E3%80%90%E7%AE%97%E6%B3%95%E3%80%91%E6%9F%A5%E6%89%BE%E6%9C%80%E9%95%BF%E5%AD%97%E7%AC%A6%E4%B8%B2%E9%95%BF%E5%BA%A6/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-      
-          
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2013/07/13/%E3%80%90%E8%B5%84%E6%BA%90%E3%80%91%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%96%99/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="张博文">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="张博文的博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2013/07/13/%E3%80%90%E8%B5%84%E6%BA%90%E3%80%91%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%96%99/" class="post-title-link" itemprop="url">【资源】学习资料</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2013-07-13 20:46:25" itemprop="dateCreated datePublished" datetime="2013-07-13T20:46:25+08:00">2013-07-13</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-03-29 19:14:56" itemprop="dateModified" datetime="2020-03-29T19:14:56+08:00">2020-03-29</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%B5%84%E6%BA%90/" itemprop="url" rel="index"><span itemprop="name">资源</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%B5%84%E6%BA%90/%E8%AE%A1%E7%AE%97%E6%9C%BA/" itemprop="url" rel="index"><span itemprop="name">计算机</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="网络资源汇总"><a href="#网络资源汇总" class="headerlink" title="网络资源汇总"></a>网络资源汇总</h1><h2 id="计算机编程语言"><a href="#计算机编程语言" class="headerlink" title="计算机编程语言"></a>计算机编程语言</h2><h2 id="一份来自亚马逊工程师的Google面试指南，GitHub收获9-8万星，已翻译成中文"><a href="#一份来自亚马逊工程师的Google面试指南，GitHub收获9-8万星，已翻译成中文" class="headerlink" title="一份来自亚马逊工程师的Google面试指南，GitHub收获9.8万星，已翻译成中文"></a>一份来自亚马逊工程师的Google面试指南，GitHub收获9.8万星，已翻译成中文</h2><p><a href="https://github.com/jwasham/coding-interview-university/blob/master/translations/README-cn.md" target="_blank" rel="noopener">https://github.com/jwasham/coding-interview-university/blob/master/translations/README-cn.md</a></p>
-<h2 id="iOS资源汇总"><a href="#iOS资源汇总" class="headerlink" title="iOS资源汇总"></a>iOS资源汇总</h2><h3 id="好用的iOS端可以用的demo"><a href="#好用的iOS端可以用的demo" class="headerlink" title="好用的iOS端可以用的demo"></a>好用的iOS端可以用的demo</h3><p><a href="http://code.cocoachina.com" target="_blank" rel="noopener">http://code.cocoachina.com</a></p>
-
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2013/07/13/%E3%80%90%E8%B5%84%E6%BA%90%E3%80%91%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%96%99/#more" rel="contents">
+              <a class="btn" href="/2016/05/26/%E3%80%90iOS%E9%9D%A2%E8%AF%95%E3%80%91%E9%9D%A2%E8%AF%95%E9%A2%9801/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -816,7 +996,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span>
+    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/5/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -882,7 +1062,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">37</span>
+          <span class="site-state-item-count">44</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
